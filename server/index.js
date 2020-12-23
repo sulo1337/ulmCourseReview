@@ -14,6 +14,16 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 app.use(express.json());
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        let formattedError = {
+            status: err.statusCode,
+            message: err.message
+        }
+        return res.status(err.statusCode).json(formattedError); // Bad request
+    }
+    next();
+});
 app.use(morgan('combined'));
 app.use('/api/student', student);
 app.use('/api/course', course);

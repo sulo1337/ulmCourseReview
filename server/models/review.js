@@ -60,7 +60,6 @@ function validateReview(review) {
         tags: Joi.array().items(Joi.string()),
         attendance: Joi.string().valid('Mandatory', 'Not required', 'No answer').required(),
         textbook: Joi.boolean().required(),
-        student: Joi.objectId().required(),
         professor: Joi.objectId().required(),
         course: Joi.objectId().required()
     }

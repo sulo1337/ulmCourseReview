@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const { Review, validateReview } = require('../models/review');
 const { Professor } = require('../models/professor');
 const { Course } = require('../models/course');
 
 router.get('/', (req, res) => {
     Review.find().lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
         .then(reviews => {
             return res.status(200).send(reviews);
         })
@@ -14,7 +18,13 @@ router.get('/', (req, res) => {
         });
 });
 
-router.post('/', async (req, res) => {
+router.get('/course', (req, res) => {
+    const course = req.query.name;
+
+    return res.status(200).send(course);
+})
+
+router.post('/', auth, async (req, res) => {
     const { error } = validateReview(req.body);
     if (error) return res.status(400).send(`There is an error with review details: \n${JSON.stringify(error.details)}`);
 
@@ -32,7 +42,7 @@ router.post('/', async (req, res) => {
         upvote: req.body.upvote,
         attendance: req.body.attendance,
         textbook: req.body.textbook,
-        student: req.body.student,
+        student: req.student._id,
         professor: req.body.professor,
         course: req.body.course
     });

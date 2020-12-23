@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const studentSchema = mongoose.Schema({
     email: {
@@ -24,7 +25,7 @@ const studentSchema = mongoose.Schema({
 });
 
 studentSchema.methods.generateAuthToken = function () {
-    return jwt.sign({ _id: this._id, email: this.email }, 'jwtKey');
+    return jwt.sign({ _id: this._id, email: this.email }, config.get('jwtPrivateKey'));
 };
 
 function validateStudent(student) {
