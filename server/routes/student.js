@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const Joi = require('joi');
 
 router.get('/', (req, res) => {
-    Student.find()
+    Student.find().lean()
         .then(data => {
             res.status(200).send(data);
         })
