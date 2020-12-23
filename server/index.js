@@ -10,6 +10,8 @@ const professor = require('./routes/professor.js');
 const review = require('./routes/review.js');
 const nopath = require('./middleware/nopath.js');
 const morgan = require('morgan');
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 
 app.use(express.json());
 app.use(morgan('combined'));
