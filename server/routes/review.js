@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const { Review, validateReview } = require('../models/review');
 const { Professor } = require('../models/professor');
 const { Course } = require('../models/course');
+const { Student } = require('../models/student');
 
 router.get('/', (req, res) => {
     Review.find().lean()
@@ -18,11 +19,50 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/course', (req, res) => {
-    const course = req.query.name;
+router.get('/course', async (req, res) => {
+    const course = await Course.findOne({ ccode: req.query.ccode });
+    if (!course) return res.status(404).send([]);
 
-    return res.status(200).send(course);
-})
+    Review.find({ course: course._id }).lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(reviews => {
+            return res.status(200).send(reviews);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
+
+router.get('/professor', async (req, res) => {
+    const professor = await Professor.findOne({ fname: req.query.fname, lname: req.query.lname });
+    if (!professor) return res.status(404).send(`Professor not found ${req.query.ccode}`);
+
+    Review.find({ professor: professor._id }).lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(reviews => {
+            return res.status(200).send(reviews);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
+
+router.get('/my', auth, async (req, res) => {
+    Review.find({ student: req.student._id }).lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(reviews => {
+            return res.status(200).send(reviews);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
 
 router.post('/', auth, async (req, res) => {
     const { error } = validateReview(req.body);
@@ -46,9 +86,53 @@ router.post('/', auth, async (req, res) => {
         professor: req.body.professor,
         course: req.body.course
     });
-
     await review.save();
     return res.status(200).send(review);
-})
+});
 
+router.put('/:id', auth, async (req, res) => {
+    const { error } = validateReview(req.body);
+    if (error) return res.status(400).send(`There is an error with review details: \n${JSON.stringify(error.details)}`);
+
+    const professor = await Professor.findById(req.body.professor);
+    if (!professor) return res.status(400).send(`Professor with given id ${req.body.professor} not found`);
+
+    const course = await Course.findById(req.body.course);
+    if (!course) return res.status(400).send(`Course with given id ${req.body.course} not found`);
+
+    const review = await Review.findById(req.params.id);
+    console.log(review.student);
+    console.log(req.student._id);
+    if (review.student != req.student._id) return res.status(401).send(`Unauthorized`);
+
+    const updated = req.body;
+    updated.student = req.student._id;
+
+    Review.findByIdAndUpdate(req.params.id, updated, { new: true })
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(theReview => {
+            return res.status(200).send(theReview);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
+
+router.delete('/:id', auth, async (req, res) => {
+    const review = await Review.findById(req.params.id);
+    if (review.student != req.student._id) return res.status(401).send(`Unauthorized`);
+
+    Review.findByIdAndRemove(req.params.id)
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(theReview => {
+            return res.status(200).send(theReview);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
 module.exports = router;
