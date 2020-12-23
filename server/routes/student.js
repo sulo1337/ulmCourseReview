@@ -3,6 +3,7 @@ const router = express.Router();
 const { Student } = require('../models/student');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
+const { Review } = require('../models/review');
 
 router.get('/', (req, res) => {
     Student.find().lean()
@@ -40,14 +41,26 @@ router.post('/login', async (req, res) => {
     const { error } = validateLoginForm(req.body);
     if (error) return res.status(400).send("There is an error with login details: \n" + JSON.stringify(error.details));
 
-    const student = await Student.findOne({ email: req.body.email });
-    if (!student) return res.status(400).send("Invalid email/password");
+    const thisStudent = await Student.findOne({ email: req.body.email });
+    if (!thisStudent) return res.status(400).send("Invalid email/password");
 
-    const validPassword = await bcrypt.compare(req.body.password, student.password);
+    const validPassword = await bcrypt.compare(req.body.password, thisStudent.password);
     if (!validPassword) return res.status(400).send("Invalid email/password");
 
-    const token = student.generateAuthToken();
-    res.header('x-auth-token', token).status(200).send('Login Successful');
+
+
+    Review.find({ student: thisStudent._id }).lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(reviews => {
+            const token = thisStudent.generateAuthToken();
+            return res.header('x-auth-token', token).status(200).send(reviews);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error ${JSON.stringify(err)}`);
+        });
+
 });
 
 
