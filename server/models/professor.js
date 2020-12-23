@@ -27,4 +27,4 @@ function validateProfessor(professor) {
 const Professor = mongoose.model('Professor', professorSchema);
 
 module.exports.Professor = Professor;
-module.exports.validate = validateProfessor;
+module.exports.validateProfessor = validateProfessor;

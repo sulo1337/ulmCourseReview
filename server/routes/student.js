@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Student, validate } = require('../models/student');
+const { Student } = require('../models/student');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 

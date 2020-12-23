@@ -28,4 +28,4 @@ function validateCourse(course) {
 const Course = mongoose.model('Course', courseSchema);
 
 module.exports.Course = Course;
-module.exports.validate = validateCourse;
+module.exports.validateCourse = validateCourse;
