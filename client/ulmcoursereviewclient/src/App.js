@@ -1,21 +1,70 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Grommet } from 'grommet';
+import React, { Children } from 'react';
+import ReviewForm from './Components/ReviewForm';
+import theme from './theme';
+import Dashboard from './Views/Dashboard';
+import Home from './Views/Home';
+import Login from './Views/Login';
+import Register from './Views/Register';
+import SearchPage from './Views/SearchPage';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+const RouterContext = React.createContext({});
+
+const Router = ({ children }) => {
+  const [path, setPath] = React.useState("/index")
+
+  React.useEffect(() => {
+    const onPopState = () => setPath(document.location.pathname)
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  const push = nextPath => {
+    if (nextPath !== path) {
+      window.history.pushState(undefined, undefined, nextPath)
+      setPath(nextPath)
+      window.scrollTo(0, 0)
+    }
   }
+
+  return (
+    <RouterContext.Provider value={{ path, push }}>
+      {children}
+    </RouterContext.Provider>
+  )
 }
 
-export default App;
+const Routes = ({ children }) => {
+  const { path: contextPath } = React.useContext(RouterContext)
+  let found
+  Children.forEach(children, child => {
+    if (!found && contextPath === child.props.path) found = child
+  })
+  return found
+}
+
+const Route = ({ Component, path }) => {
+  const { path: contextPath } = React.useContext(RouterContext)
+  return contextPath === path ? <Component /> : null
+}
+
+var x = () => (
+  <Grommet full theme={theme}>
+    <Router>
+      <Routes>
+        <Route path="/login" Component={Login} />
+        <Route path="/index" Component={Home} />
+        <Route path="/register" Component={Register} />
+        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/search" Component={SearchPage} />
+        <Route path="/addreview" Component={ReviewForm} />
+        <Route path="/editreview" Component={ReviewForm} />
+      </Routes>
+    </Router>
+  </Grommet>
+);
+
+export default x;
+export {
+  RouterContext
+};
