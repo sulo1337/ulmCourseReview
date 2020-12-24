@@ -14,7 +14,9 @@ const Joi = require('joi');
 const cors = require('cors');
 Joi.objectId = require('joi-objectid')(Joi);
 
-app.use(cors());
+app.use(cors({
+    exposedHeaders: ['x-auth-token'],
+}));
 app.use(express.json());
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
