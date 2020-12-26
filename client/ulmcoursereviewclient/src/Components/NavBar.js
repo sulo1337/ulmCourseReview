@@ -19,6 +19,7 @@ const NavBar = () => {
                     <Box align="center" justify="center">
                         <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {
                             localStorage.removeItem('x-auth-token');
+                            localStorage.removeItem('fname');
                             push('/index');
                         }} />
                     </Box>

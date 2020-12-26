@@ -15,6 +15,7 @@ const Login = () => {
         axios.post(url, { email, password })
             .then(response => {
                 localStorage.setItem('x-auth-token', response.headers["x-auth-token"]);
+                localStorage.setItem('fname', response.data.fname);
                 push("/dashboard");
             })
             .catch(err => {

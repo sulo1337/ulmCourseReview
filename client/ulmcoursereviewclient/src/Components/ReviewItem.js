@@ -4,6 +4,9 @@ import React from 'react';
 import { RouterContext } from '../App';
 const ReviewItem = () => {
     const { push } = React.useContext(RouterContext)
+    // const [cname, setCname] = useState("");
+    // const [rname, setRname] = useState("");
+    // const [prof, setProf] = useState("");
     return (<Card pad="medium" justify="center">
         <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="start" justify="center">

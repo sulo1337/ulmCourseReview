@@ -1,9 +1,14 @@
 import { Box, Button, Heading, Image, TextInput } from 'grommet';
 import { Lock, Mail } from 'grommet-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { RouterContext } from '../App';
 const Register = () => {
     const { push } = React.useContext(RouterContext)
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
+    const [middle, setMiddle] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     return (
         <Box align="center" justify="center" height="large" background={{ "color": "white" }}>
@@ -17,13 +22,23 @@ const Register = () => {
             </Box>
             <Box align="center" justify="center">
                 <Box align="center" justify="center" pad="small" gap="xsmall" direction="column" wrap={false} width="medium">
-                    <TextInput name="First Name" placeholder="First Name" />
-                    <TextInput name="Middle" placeholder="Middle" />
-                    <TextInput name="Last Name" placeholder="Last Name" />
-                    <TextInput icon={<Mail />} name="email" placeholder="Email" reverse />
-                    <TextInput reverse icon={<Lock />} name="password" placeholder="Password" />
+                    <TextInput name="First Name" placeholder="First Name" value={fname} onChange={(event) => {
+                        setFname(event.target.value);
+                    }} />
+                    <TextInput name="Middle" placeholder="Middle" value={middle} onChange={(event) => {
+                        setMiddle(event.target.value);
+                    }} />
+                    <TextInput name="Last Name" placeholder="Last Name" value={lname} onChange={(event) => {
+                        setLname(event.target.value);
+                    }} />
+                    <TextInput icon={<Mail />} name="email" placeholder="Email" reverse value={email} onChange={(event) => {
+                        setEmail(event.target.value);
+                    }} />
+                    <TextInput reverse icon={<Lock />} name="password" placeholder="Password" type="password" value={password} onChange={(event) => {
+                        setPassword(event.target.value);
+                    }} />
                     <Box align="center" justify="center">
-                        <Button label="Register" hoverIndicator={false} primary margin="xsmall" fill="horizontal" onClick={() => push("/register")} />
+                        <Button label="Register" hoverIndicator={false} primary margin="xsmall" fill="horizontal" onClick={() => console.log('here')} />
                         <Button label="Login Instead" margin="xsmall" fill="horizontal" hoverIndicator={false} primary onClick={() => push("/login")} />
                     </Box>
                 </Box>

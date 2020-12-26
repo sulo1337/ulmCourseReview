@@ -9,8 +9,9 @@ import axios from 'axios';
 
 const Dashboard = () => {
     const { push } = React.useContext(RouterContext);
+    //eslint-disable-next-line
     const [reviews, setReviews] = useState([]);
-
+    const [name, setName] = useState("");
     useEffect(() => {
         const authtoken = localStorage.getItem('x-auth-token');
         const url = "http://localhost:5000/api/review/my";
@@ -27,6 +28,7 @@ const Dashboard = () => {
         })
             .then(response => {
                 setReviews(response.data);
+                setName(localStorage.getItem('fname'));
             })
             .catch(err => {
                 push('/index');
@@ -41,7 +43,7 @@ const Dashboard = () => {
                 <Box align="start" justify="center">
                     <Box align="start" justify="start" direction="column">
                         <Heading level="3" textAlign="start" margin="small">
-                            Hi Sulochan, here are your reviews
+                            Hi {name}, here are your reviews
               </Heading>
                         <Button label="Add a Review" margin={{ "left": "small" }} plain color="brand" icon={<Add />} active={false} onClick={() => push("/addreview")} />
                     </Box>
