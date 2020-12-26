@@ -47,19 +47,14 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, thisStudent.password);
     if (!validPassword) return res.status(400).send("Invalid email/password");
 
+    const student = {
+        email: thisStudent.email,
+        fname: thisStudent.fname,
+        lname: thisStudent.lname,
+    }
 
-
-    Review.find({ student: thisStudent._id }).lean()
-        .populate('student', { password: 0, email: 0 })
-        .populate('professor')
-        .populate('course')
-        .then(reviews => {
-            const token = thisStudent.generateAuthToken();
-            return res.header('x-auth-token', token).status(200).send(reviews);
-        })
-        .catch(err => {
-            return res.status(500).send(`Internal Server Error ${JSON.stringify(err)}`);
-        });
+    const token = thisStudent.generateAuthToken();
+    return res.header('x-auth-token', token).status(200).send(student);
 
 });
 
