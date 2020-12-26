@@ -11,7 +11,7 @@ import SearchPage from './Views/SearchPage';
 const RouterContext = React.createContext({});
 
 const Router = ({ children }) => {
-  const [path, setPath] = React.useState("/index")
+  const [path, setPath] = React.useState("/dashboard")
 
   React.useEffect(() => {
     const onPopState = () => setPath(document.location.pathname)

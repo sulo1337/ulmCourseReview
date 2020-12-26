@@ -5,7 +5,7 @@ const Home = () => {
     const { push } = React.useContext(RouterContext)
 
     return (
-        <Box align="center" justify="center" height="xlarge" background={{ "color": "white" }}>
+        <Box align="center" justify="center" height="large" background={{ "color": "white" }}>
             <Box align="center" justify="center">
                 <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
             </Box>

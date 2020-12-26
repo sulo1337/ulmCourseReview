@@ -17,7 +17,10 @@ const NavBar = () => {
                         <Button label="My Reviews" plain primary={false} color="white" onClick={() => push("/dashboard")} />
                     </Box>
                     <Box align="center" justify="center">
-                        <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => push("/index")} />
+                        <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {
+                            localStorage.removeItem('x-auth-token');
+                            push('/index');
+                        }} />
                     </Box>
                 </Box>
             </Box>
