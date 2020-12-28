@@ -2,23 +2,40 @@ import { Box, Button, Card, CardBody, CardFooter, CardHeader, Paragraph, Text } 
 import { Edit, Like, Star, StarHalf, Tag } from 'grommet-icons';
 import React from 'react';
 import { RouterContext } from '../App';
-const ReviewItem = () => {
+const ReviewItem = (props) => {
     const { push } = React.useContext(RouterContext)
-    // const [cname, setCname] = useState("");
-    // const [rname, setRname] = useState("");
-    // const [prof, setProf] = useState("");
+    const ccode = props.review.course.ccode;
+    const rname = props.review.student.fname + " " + props.review.student.lname;
+    const cname = props.review.course.cname;
+    const prof = props.review.professor.fname + " " + props.review.professor.lname;
+    const attendance = props.review.attendance;
+    const textbook = props.review.textbook;
+    const tags = props.review.tags;
+    const sem = props.review.sem;
+    const year = props.review.year;
+    const date = props.review.date;
+    const desc = props.review.description;
+    const upvote = props.review.upvote;
+    const anon = false;
+
+    const tagButtons = tags.map((tag, index) => {
+        return (<Button key={index} label={tag} size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />);
+    })
     return (<Card pad="medium" justify="center">
         <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="start" justify="center">
                 <Box align="center" justify="start" direction="row" gap="xxsmall">
                     <Text size="xlarge" color="brand">
-                        CSCI 4065
-          </Text>
+                        {ccode}
+                    </Text>
                     <Button icon={<Edit />} onClick={() => push("/editreview")} />
                 </Box>
+                <Text size="xsmall" textAlign="start" color="brand">
+                    {cname}
+                </Text>
                 <Text size="medium" textAlign="start" color="brand">
-                    Lon Smith
-        </Text>
+                    {prof}
+                </Text>
                 <Box align="center" justify="center" direction="row">
                     <Star color="graph-1" />
                     <Star color="graph-1" />
@@ -29,42 +46,41 @@ const ReviewItem = () => {
             </Box>
             <Box align="end" justify="center" width="small">
                 <Text size="xsmall" color="brand">
-                    by Sulochan Acharya
-        </Text>
+                    by {anon ? "Anonymous" : rname}
+                </Text>
                 <Text size="xsmall" color="brand">
-                    on 06/05/2020
-        </Text>
+                    on {date.slice(0, 10)}
+                </Text>
                 <Text size="medium" color="brand">
-                    Fall 2020
-        </Text>
+                    {sem + " " + year.slice(0, 4)}
+                </Text>
             </Box>
         </CardHeader>
         <CardBody pad="small" fill="horizontal">
             <Box align="center" justify="end" direction="row" gap="small" margin={{ "right": "medium" }}>
                 <Text size="small" color="brand">
-                    Attendance: Mandatory
-        </Text>
+                    Attendance: {attendance}
+                </Text>
                 <Box align="center" justify="center" direction="row-responsive" gap="xsmall">
                     <Text size="small" color="brand">
-                        Textbook Required: Yes
-          </Text>
+                        Textbook Required: {textbook ? "Yes" : "No"}
+                    </Text>
                 </Box>
             </Box>
             <Paragraph fill margin="none">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut sapien eget libero rutrum hendrerit. In non porttitor lorem. Mauris hendrerit leo et lectus molestie egestas. Nulla bibendum, leo vel aliquet maximus, sem magna euismod sapien, id iaculis sapien mi et dolor. Duis lacus odio, fermentum euismod eros non, malesuada facilisis quam. Etiam molestie sem ut mattis bibendum. Nulla ut dui sagittis, vehicula ipsum eu, tincidunt urna. Suspendisse et nulla turpis.
-      </Paragraph>
+                {desc}
+            </Paragraph>
         </CardBody>
         <CardFooter align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="center" justify="center" direction="row-responsive">
                 <Box align="baseline" justify="center" fill={false} width="xxsmall" direction="row" gap="xsmall">
                     <Like />
                     <Text size="small">
-                        54
-          </Text>
+                        {upvote.length}
+                    </Text>
                 </Box>
                 <Box align="center" justify="center" margin={{ "left": "small" }} direction="row-responsive" gap="small">
-                    <Button label="Extraordinary" size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />
-                    <Button label="Entertainment" size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />
+                    {tagButtons}
                 </Box>
             </Box>
         </CardFooter>

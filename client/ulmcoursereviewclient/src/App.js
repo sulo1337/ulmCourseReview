@@ -8,6 +8,7 @@ import Login from './Views/Login';
 import Register from './Views/Register';
 import SearchPage from './Views/SearchPage';
 
+
 const RouterContext = React.createContext({});
 
 const Router = ({ children }) => {
@@ -19,7 +20,11 @@ const Router = ({ children }) => {
     return () => window.removeEventListener('popstate', onPopState)
   }, [])
 
-  const push = nextPath => {
+  const push = (nextPath, reload) => {
+    if (reload) {
+      window.location.reload();
+      return;
+    }
     if (nextPath !== path) {
       window.history.pushState(undefined, undefined, nextPath)
       setPath(nextPath)

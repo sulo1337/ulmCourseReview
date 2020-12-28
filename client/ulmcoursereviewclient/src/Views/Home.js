@@ -1,8 +1,12 @@
 import { Box, Button, Heading, Image, Text } from 'grommet';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouterContext } from '../App';
 const Home = () => {
     const { push } = React.useContext(RouterContext)
+
+    useEffect(() => {
+
+    }, []);
 
     return (
         <Box align="center" justify="center" height="large" background={{ "color": "white" }}>

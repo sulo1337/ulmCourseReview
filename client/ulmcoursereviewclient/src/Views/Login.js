@@ -1,6 +1,6 @@
 import { Box, Button, Heading, Image, TextInput } from 'grommet';
 import { Lock, Mail, Alert } from 'grommet-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouterContext } from '../App';
 import axios from 'axios';
 
@@ -9,7 +9,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    useEffect(() => {
+        const authtoken = localStorage.getItem('x-auth-token');
 
+        if (authtoken) {
+            push('/dashboard');
+            return;
+        }
+    }, [push]);
     const handleClick = async () => {
         const url = 'http://localhost:5000/api/student/login'
         axios.post(url, { email, password })
