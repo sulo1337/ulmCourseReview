@@ -17,7 +17,7 @@ const ReviewItem = (props) => {
     const desc = props.review.description;
     const upvote = props.review.upvote;
     const anon = false;
-
+    const editable = props.editable;
     const tagButtons = tags.map((tag, index) => {
         return (<Button key={index} label={tag} size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />);
     })
@@ -28,7 +28,7 @@ const ReviewItem = (props) => {
                     <Text size="xlarge" color="brand">
                         {ccode}
                     </Text>
-                    <Button icon={<Edit />} onClick={() => push("/editreview")} />
+                    {editable ? <Button icon={<Edit />} onClick={() => push("/editreview")} /> : ""}
                 </Box>
                 <Text size="xsmall" textAlign="start" color="brand">
                     {cname}

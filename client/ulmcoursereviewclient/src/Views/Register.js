@@ -7,7 +7,7 @@ const Register = () => {
     const { push } = React.useContext(RouterContext)
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
-    const [middle, setMiddle] = useState("");
+    const [middle, setMiddle] = useState(" ");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [invalidEmail, setInvalidEmail] = useState(false);

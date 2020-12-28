@@ -1,6 +1,5 @@
 import { Grommet } from 'grommet';
 import React, { Children } from 'react';
-import ReviewForm from './Components/ReviewForm';
 import theme from './theme';
 import Dashboard from './Views/Dashboard';
 import Home from './Views/Home';
@@ -62,8 +61,6 @@ var x = () => (
         <Route path="/register" Component={Register} />
         <Route path="/dashboard" Component={Dashboard} />
         <Route path="/search" Component={SearchPage} />
-        <Route path="/addreview" Component={ReviewForm} />
-        <Route path="/editreview" Component={ReviewForm} />
       </Routes>
     </Router>
   </Grommet>

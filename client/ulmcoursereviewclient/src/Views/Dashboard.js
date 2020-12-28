@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Box, Button, Grid, Heading } from 'grommet';
-import { Add } from 'grommet-icons';
+import { Box, Grid, Heading, Tabs, Tab } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { RouterContext } from '../App';
 import NavBar from '../Components/NavBar';
@@ -8,19 +7,16 @@ import ReviewItem from '../Components/ReviewItem';
 import SearchBar from '../Components/SearchBar';
 import { connect } from 'react-redux';
 import store from '../js/store/index';
-
+import AddReview from '../Components/AddReview';
 const Dashboard = (props) => {
     const { push } = React.useContext(RouterContext);
+    const dispatch = props.dispatch;
     //eslint-disable-next-line
     let reviews = props.myreviews;
     const [name, setName] = useState("");
     const reviewItems = reviews.map((review) => {
-        return (<ReviewItem key={review._id} review={review} />);
+        return (<ReviewItem key={review._id} review={review} editable={true} />);
     });
-    store.subscribe(() => {
-        console.log('state changed!!!');
-        console.log(store.getState());
-    })
     const prof = props.professors;
     const course = props.courses;
 
@@ -30,9 +26,10 @@ const Dashboard = (props) => {
             push('/index');
             return;
         }
-
+        setName(localStorage.getItem('fname'));
         const currentState = store.getState();
         if (currentState.myreviews.length !== 0 && currentState.professors.length !== 0 && currentState.courses.length !== 0) {
+
             return;
         }
 
@@ -52,11 +49,11 @@ const Dashboard = (props) => {
             const myReviewsRes = responses[0];
             const profRes = responses[1];
             const courseRes = responses[2];
-            props.dispatch({
+            dispatch({
                 type: "UPDATE_MYREVIEWS",
                 payload: myReviewsRes.data
             })
-            setName(localStorage.getItem('fname'));
+
             const profArray = profRes.data.map(p => {
                 return ({
                     id: p._id,
@@ -73,12 +70,12 @@ const Dashboard = (props) => {
                 })
             });
 
-            props.dispatch({
+            dispatch({
                 type: "UPDATE_COURSES",
                 payload: courseArray
             });
 
-            props.dispatch({
+            dispatch({
                 type: "UPDATE_PROFESSORS",
                 payload: profArray
             })
@@ -88,7 +85,7 @@ const Dashboard = (props) => {
             localStorage.removeItem('fname');
             push('/index');
         });
-    }, [push]);
+    }, []);
 
     const handleSearch = (item) => {
         localStorage.setItem('searchId', item.id);
@@ -97,24 +94,33 @@ const Dashboard = (props) => {
     }
 
     return (
-        <Box overflow="scroll" align="center" flex="grow" wrap={false}>
+        <Box align="center" flex="grow" wrap={false}>
             <NavBar />
-            <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} overflow="visible" height="xxlarge">
-                <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
-                <Box align="start" justify="center">
-                    <Box align="start" justify="start" direction="column">
-                        <Heading level="3" textAlign="start" margin="small">
-                            Hi {name}, here are your reviews
+
+            <Tabs width="large">
+                <Tab title="My Reviews">
+                    <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} overflow="visible" height="xxlarge">
+                        <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
+                        <Box align="start" justify="center">
+                            <Box align="start" justify="start" direction="column">
+                                <Heading level="3" textAlign="start" margin="small">
+                                    Hi {name}, here are your reviews
               </Heading>
-                        <Button label="Add a Review" margin={{ "left": "small" }} plain color="brand" icon={<Add />} active={false} onClick={() => push("/addreview")} />
+                            </Box>
+                            <Box align="center" justify="center">
+                                <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
+                                    {reviewItems}
+                                </Grid>
+                            </Box>
+                        </Box>
                     </Box>
-                    <Box align="center" justify="center">
-                        <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
-                            {reviewItems}
-                        </Grid>
+                </Tab>
+                <Tab title="Add a Review">
+                    <Box pad="medium">
+                        <AddReview />
                     </Box>
-                </Box>
-            </Box>
+                </Tab>
+            </Tabs>
         </Box>
     )
 }
