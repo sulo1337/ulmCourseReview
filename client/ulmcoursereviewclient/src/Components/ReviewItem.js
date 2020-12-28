@@ -27,7 +27,7 @@ const ReviewItem = (props) => {
         return (<Button key={index} label={tag} size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />);
     })
 
-    const handleLike = (props) => {
+    const handleLike = () => {
         let newupvote = [];
         const id = localStorage.getItem('id');
         if (upvote.includes(id)) {
