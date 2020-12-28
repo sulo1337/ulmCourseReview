@@ -109,7 +109,7 @@ const Dashboard = (props) => {
                             </Box>
                             <Box align="center" justify="center">
                                 <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
-                                    {reviewItems}
+                                    {reviewItems.length == 0 ? "You have not published any reviews yet." : reviewItems}
                                 </Grid>
                             </Box>
                         </Box>
