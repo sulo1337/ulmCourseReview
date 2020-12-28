@@ -20,15 +20,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/course', async (req, res) => {
-    const course = await Course.findOne({ ccode: req.query.ccode });
-    if (!course) return res.status(404).send([]);
+    const course = await Course.findById(req.query.id);
+    if (!course) return res.status(404).send(`Course not found ${req.query.id}`);
 
     Review.find({ course: course._id }).lean()
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
         .then(reviews => {
-            return res.status(200).send(reviews);
+            const response = {
+                course: course,
+                reviews: reviews
+            }
+            return res.status(200).send(response);
         })
         .catch(err => {
             return res.status(500).send(`Internal Server Error`);
@@ -36,15 +40,19 @@ router.get('/course', async (req, res) => {
 });
 
 router.get('/professor', async (req, res) => {
-    const professor = await Professor.findOne({ fname: req.query.fname, lname: req.query.lname });
-    if (!professor) return res.status(404).send(`Professor not found ${req.query.ccode}`);
+    const professor = await Professor.findById(req.query.id);
+    if (!professor) return res.status(404).send(`Professor not found ${req.query.id}`);
 
     Review.find({ professor: professor._id }).lean()
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
         .then(reviews => {
-            return res.status(200).send(reviews);
+            const response = {
+                professor: professor,
+                reviews: reviews
+            }
+            return res.status(200).send(response);
         })
         .catch(err => {
             return res.status(500).send(`Internal Server Error`);
@@ -56,6 +64,7 @@ router.get('/my', auth, async (req, res) => {
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
+        .sort('-date')
         .then(reviews => {
             return res.status(200).send(reviews);
         })
@@ -87,7 +96,17 @@ router.post('/', auth, async (req, res) => {
         course: req.body.course
     });
     await review.save();
-    return res.status(200).send(review);
+    Review.find({ student: req.student._id }).lean()
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .sort('-date')
+        .then(reviews => {
+            return res.status(200).send(reviews);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
 });
 
 router.put('/:id', auth, async (req, res) => {

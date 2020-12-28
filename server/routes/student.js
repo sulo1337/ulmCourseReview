@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
     if (error) return res.status(400).send("There is an error with register details: \n" + JSON.stringify(error.details));
 
     var student = await Student.findOne({ email: req.body.email });
-    if (student) return res.status(400).send("Student already registered");
+    if (student) return res.status(409).send("Student already registered");
 
     student = new Student({
         email: req.body.email,
