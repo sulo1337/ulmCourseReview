@@ -1,8 +1,9 @@
 import { Box, Button, Header, Nav, Text } from 'grommet';
 import React from 'react';
 import { RouterContext } from '../App';
+import { connect } from 'react-redux';
 
-const NavBar = () => {
+const NavBar = (props) => {
     const { push } = React.useContext(RouterContext)
     return (<Header align="center" direction="row-responsive" flex={false} justify="between" gap="medium">
         <Nav align="start" direction="row-responsive" justify="end" background={{ "color": "brand" }}>
@@ -20,6 +21,18 @@ const NavBar = () => {
                         <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {
                             localStorage.removeItem('x-auth-token');
                             localStorage.removeItem('fname');
+                            props.dispatch({
+                                type: "UPDATE_COURSES",
+                                payload: []
+                            });
+                            props.dispatch({
+                                type: "UPDATE_PROFESSORS",
+                                payload: []
+                            });
+                            props.dispatch({
+                                type: "UPDATE_MYREVIEWS",
+                                payload: []
+                            });
                             push('/index');
                         }} />
                     </Box>
@@ -29,4 +42,10 @@ const NavBar = () => {
     </Header>);
 }
 
-export default NavBar;
+const mapStateToProps = state => ({
+    professors: state.professors,
+    courses: state.courses,
+    myreviews: state.myreviews
+});
+
+export default connect(mapStateToProps)(NavBar);

@@ -5,7 +5,9 @@ import ReviewItem from '../Components/ReviewItem';
 import { RouterContext } from '../App';
 import SearchBar from '../Components/SearchBar';
 import axios from 'axios';
-const SearchPage = ({ match, location }) => {
+import { connect } from 'react-redux';
+
+const SearchPage = (props) => {
     const { push } = React.useContext(RouterContext);
 
     const [reviews, setReviews] = useState([]);
@@ -13,9 +15,8 @@ const SearchPage = ({ match, location }) => {
     const reviewItems = reviews.map((review) => {
         return (<ReviewItem key={review._id} review={review} />);
     });
-
-    const [prof, setProf] = useState([]);
-    const [course, setCourse] = useState([]);
+    const prof = props.professors;
+    const course = props.courses;
 
     const search = () => {
         const searchType = localStorage.getItem('searchType');
@@ -42,36 +43,6 @@ const SearchPage = ({ match, location }) => {
     }
 
     useEffect(() => {
-        const profurl = "http://localhost:5000/api/professor";
-        const courseurl = "http://localhost:5000/api/course";
-
-        const profReq = axios.get(profurl);
-        const courseReq = axios.get(courseurl);
-
-        axios.all([profReq, courseReq]).then(axios.spread((...responses) => {
-            const profRes = responses[0];
-            const courseRes = responses[1];
-            const profArray = profRes.data.map(prof => {
-                return ({
-                    id: prof._id,
-                    name: prof.fname + " " + prof.lname,
-                    type: "professor"
-                })
-            });
-
-            const courseArray = courseRes.data.map(course => {
-                return ({
-                    id: course._id,
-                    name: course.ccode,
-                    type: "course"
-                })
-            });
-
-            setProf(profArray);
-            setCourse(courseArray);
-        })).catch(err => {
-            console.log(err.message);
-        });
         search();
     }, []);
 
@@ -109,4 +80,10 @@ const SearchPage = ({ match, location }) => {
     )
 }
 
-export default SearchPage;
+const mapStateToProps = state => ({
+    professors: state.professors,
+    courses: state.courses,
+    myreviews: state.myreviews
+});
+
+export default connect(mapStateToProps)(SearchPage);
