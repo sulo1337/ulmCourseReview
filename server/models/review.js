@@ -48,6 +48,11 @@ const reviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true,
+    },
+    rating: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5],
+        required: true,
     }
 });
 
@@ -61,7 +66,8 @@ function validateReview(review) {
         attendance: Joi.string().valid('Mandatory', 'Not required', 'No answer').required(),
         textbook: Joi.boolean().required(),
         professor: Joi.objectId().required(),
-        course: Joi.objectId().required()
+        course: Joi.objectId().required(),
+        rating: Joi.number().valid(1, 2, 3, 4, 5).required()
     }
     return Joi.validate(review, schema);
 }

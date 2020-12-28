@@ -27,6 +27,7 @@ router.get('/course', async (req, res) => {
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
+        .sort('-date')
         .then(reviews => {
             const response = {
                 course: course,
@@ -47,6 +48,7 @@ router.get('/professor', async (req, res) => {
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
+        .sort('-date')
         .then(reviews => {
             const response = {
                 professor: professor,
@@ -93,7 +95,8 @@ router.post('/', auth, async (req, res) => {
         textbook: req.body.textbook,
         student: req.student._id,
         professor: req.body.professor,
-        course: req.body.course
+        course: req.body.course,
+        rating: req.body.rating
     });
     await review.save();
     Review.find({ student: req.student._id }).lean()
