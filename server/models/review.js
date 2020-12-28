@@ -53,6 +53,10 @@ const reviewSchema = mongoose.Schema({
         type: Number,
         enum: [1, 2, 3, 4, 5],
         required: true,
+    },
+    anon: {
+        type: Boolean,
+        required: true
     }
 });
 
@@ -67,7 +71,8 @@ function validateReview(review) {
         textbook: Joi.boolean().required(),
         professor: Joi.objectId().required(),
         course: Joi.objectId().required(),
-        rating: Joi.number().valid(1, 2, 3, 4, 5).required()
+        rating: Joi.number().valid(1, 2, 3, 4, 5).required(),
+        anon: Joi.boolean().required()
     }
     return Joi.validate(review, schema);
 }

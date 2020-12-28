@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
     }
     next();
 });
-// app.use(morgan('combined'));
+app.use(morgan('combined'));
 app.use('/api/student', student);
 app.use('/api/course', course);
 app.use('/api/professor', professor);
