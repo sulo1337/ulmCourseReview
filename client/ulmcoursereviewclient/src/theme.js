@@ -178,7 +178,8 @@ const theme = {
             "radius": "28px",
             "size": "56px"
         },
-        "size": "28px"
+        "size": "28px",
+        "color": "black"
     },
     "radioButton": {
         "size": "28px"

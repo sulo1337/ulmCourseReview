@@ -1,9 +1,14 @@
+import axios from 'axios';
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Paragraph, Text } from 'grommet';
-import { Edit, Like, Star, StarHalf, Tag } from 'grommet-icons';
-import React from 'react';
+import { Edit, FormPrevious, Like, Star, StarHalf, Tag } from 'grommet-icons';
+import React, { useState } from 'react';
 import { RouterContext } from '../App';
+import { connect } from 'react-redux';
 const ReviewItem = (props) => {
-    const { push } = React.useContext(RouterContext)
+    const { push } = React.useContext(RouterContext);
+    let myreviews = props.myreviews;
+    const dispatch = props.dispatch;
+    const reviewid = props.review._id;
     const ccode = props.review.course.ccode;
     const rname = props.review.student.fname + " " + props.review.student.lname;
     const cname = props.review.course.cname;
@@ -15,12 +20,57 @@ const ReviewItem = (props) => {
     const year = props.review.year;
     const date = props.review.date;
     const desc = props.review.description;
-    const upvote = props.review.upvote;
-    const anon = false;
+    const [upvote, setUpvote] = useState(props.review.upvote);
+    const anon = props.review.anon;
     const editable = props.editable;
     const tagButtons = tags.map((tag, index) => {
         return (<Button key={index} label={tag} size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />);
     })
+
+    const handleLike = (props) => {
+        let newupvote = [];
+        const id = localStorage.getItem('id');
+        if (upvote.includes(id)) {
+            //downvote
+            newupvote = [...upvote];
+            newupvote = newupvote.filter(item => item !== id);
+            const url = "http://localhost:5000/api/review/downvote/" + reviewid;
+            axios.put(url, [], {
+                headers: {
+                    "x-auth-token": localStorage.getItem('x-auth-token')
+                }
+            })
+                .catch(err => {
+                    console.log(err.response);
+                });
+        } else {
+            //upvote
+            newupvote = [...upvote];
+            newupvote.push(id);
+            const url = "http://localhost:5000/api/review/upvote/" + reviewid;
+            axios.put(url, [], {
+                headers: {
+                    "x-auth-token": localStorage.getItem('x-auth-token')
+                }
+            })
+                .catch(err => {
+                    console.log(err.response);
+                });
+        }
+        setUpvote(newupvote);
+        let updatedreviews = myreviews;
+        updatedreviews = updatedreviews.filter(item => {
+            if (item._id == reviewid) {
+                item.upvote = newupvote;
+            }
+            return item;
+        });
+
+        dispatch({
+            type: "UPDATE_MYREVIEWS",
+            payload: updatedreviews
+        });
+    }
     return (<Card pad="medium" justify="center">
         <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="start" justify="center">
@@ -74,7 +124,9 @@ const ReviewItem = (props) => {
         <CardFooter align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="center" justify="center" direction="row-responsive">
                 <Box align="baseline" justify="center" fill={false} width="xxsmall" direction="row" gap="xsmall">
-                    <Like />
+                    <Button plain icon={<Like />} hoverIndicator disabled={false} primary reverse={false} color={
+                        upvote.includes(localStorage.getItem('id')) ? "black" : "white"
+                    } onClick={handleLike} />
                     <Text size="small">
                         {upvote.length}
                     </Text>
@@ -86,4 +138,10 @@ const ReviewItem = (props) => {
         </CardFooter>
     </Card>);
 }
-export default ReviewItem;
+const mapStateToProps = state => ({
+    professors: state.professors,
+    courses: state.courses,
+    myreviews: state.myreviews
+});
+
+export default connect(mapStateToProps)(ReviewItem);

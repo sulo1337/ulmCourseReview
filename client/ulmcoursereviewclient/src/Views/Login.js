@@ -23,6 +23,7 @@ const Login = () => {
             .then(response => {
                 localStorage.setItem('x-auth-token', response.headers["x-auth-token"]);
                 localStorage.setItem('fname', response.data.fname);
+                localStorage.setItem('id', response.data._id);
                 push("/dashboard");
             })
             .catch(err => {

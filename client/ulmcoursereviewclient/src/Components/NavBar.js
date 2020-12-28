@@ -21,6 +21,7 @@ const NavBar = (props) => {
                         <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {
                             localStorage.removeItem('x-auth-token');
                             localStorage.removeItem('fname');
+                            localStorage.removeItem('id');
                             props.dispatch({
                                 type: "UPDATE_COURSES",
                                 payload: []

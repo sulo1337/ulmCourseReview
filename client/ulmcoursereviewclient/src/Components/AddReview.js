@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Grid, Heading, RadioButtonGroup, Select, Text, TextArea } from 'grommet';
+import { Box, Button, Card, CardBody, CheckBox, CardFooter, CardHeader, Grid, Heading, RadioButtonGroup, Select, Text, TextArea } from 'grommet';
 import { Alert, Checkmark } from 'grommet-icons';
 import React, { useState } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
@@ -15,6 +15,7 @@ const AddReview = (props) => {
     const [attendance, setAttendance] = useState(undefined);
     const [professor, setProfessor] = useState("");
     const [course, setCourse] = useState("");
+    const [anon, setAnon] = useState(false);
     const upvote = [];
     const tags = [];
     const [invalid, setInvalid] = useState(false);
@@ -41,6 +42,8 @@ const AddReview = (props) => {
 
     const handleSubmit = () => {
         setInvalid(false);
+        setError(false);
+        setSuccess(false);
         setInvalidMessage("");
 
         if (!course) {
@@ -113,7 +116,9 @@ const AddReview = (props) => {
             sem,
             year,
             description: desc,
-            tags
+            tags,
+            anon,
+            rating: 4
         }
 
         const url = "http://localhost:5000/api/review";
@@ -244,6 +249,19 @@ const AddReview = (props) => {
                                     <RadioButtonGroup value={attendance} name="attendance" options={["Mandatory", "Not required"]} direction="row" onChange={(event) => {
                                         setAttendance(event.target.value);
                                     }} />
+                                </Box>
+                                <Box align="start" justify="start" gap="xxsmall" pad="xsmall">
+                                    <Text margin={{ "left": "small" }} color="brand">
+                                        Anonymity
+                                        <Text color="dark-1">
+                                            <CheckBox
+                                                checked={anon}
+                                                label="Do not post your name on this review?"
+                                                onChange={(event) => setAnon(event.target.checked)}
+                                            />
+                                        </Text>
+
+                                    </Text>
                                 </Box>
                             </Box>
                         </Box>
