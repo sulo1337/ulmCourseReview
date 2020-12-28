@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Paragraph, Text } from 'grommet';
-import { Edit, FormPrevious, Like, Star, StarHalf, Tag } from 'grommet-icons';
+import { Edit, Like, Star, StarHalf, Tag } from 'grommet-icons';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
 import { connect } from 'react-redux';
