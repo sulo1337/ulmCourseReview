@@ -144,9 +144,47 @@ router.put('/:id', auth, async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
     const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).send(`Review not found`);
     if (review.student != req.student._id) return res.status(401).send(`Unauthorized`);
 
     Review.findByIdAndRemove(req.params.id)
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(theReview => {
+            return res.status(200).send(theReview);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
+
+router.put('/upvote/:id', auth, async (req, res) => {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).send(`Review not found`);
+
+    const updated = review;
+    if (!updated.upvote.includes(req.student._id)) {
+        updated.upvote.push(req.student._id);
+    }
+    Review.findByIdAndUpdate(req.params.id, updated, { new: true })
+        .populate('student', { password: 0, email: 0 })
+        .populate('professor')
+        .populate('course')
+        .then(theReview => {
+            return res.status(200).send(theReview);
+        })
+        .catch(err => {
+            return res.status(500).send(`Internal Server Error`);
+        });
+});
+
+router.put('/downvote/:id', auth, async (req, res) => {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).send(`Review not found`);
+    const updated = review;
+    updated.upvote = updated.upvote.filter(item => item != req.student._id);
+    Review.findByIdAndUpdate(req.params.id, updated, { new: true })
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')

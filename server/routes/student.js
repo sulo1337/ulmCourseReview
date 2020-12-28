@@ -51,6 +51,7 @@ router.post('/login', async (req, res) => {
         email: thisStudent.email,
         fname: thisStudent.fname,
         lname: thisStudent.lname,
+        _id: thisStudent._id
     }
 
     const token = thisStudent.generateAuthToken();
