@@ -66,6 +66,11 @@ const Register = () => {
                 }, 4000);
             })
             .catch(err => {
+                if (err.response === undefined) {
+                    setInvalid(true);
+                    setInvalidMessage("No internet connection");
+                    return;
+                }
                 if (err.response.status === 409) {
                     setInvalid(true);
                     setInvalidMessage("User with given email is already registered!");

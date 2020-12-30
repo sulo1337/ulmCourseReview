@@ -9,6 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     useEffect(() => {
         const authtoken = localStorage.getItem('x-auth-token');
 
@@ -18,6 +19,7 @@ const Login = () => {
         }
     }, [push]);
     const handleClick = async () => {
+        setError(false);
         const url = process.env.REACT_APP_BASE_URL + '/api/student/login'
         axios.post(url, { email, password })
             .then(response => {
@@ -27,8 +29,12 @@ const Login = () => {
                 push("/dashboard");
             })
             .catch(err => {
-                console.log("invalid credentials");
                 setError(true);
+                if (err.response === undefined) {
+                    setErrorMessage("No internet connection");
+                    return;
+                }
+                setErrorMessage("Invalid Email/Password!");
             })
     }
     return (
@@ -43,7 +49,7 @@ const Login = () => {
             </Box>
             <Box align="center" justify="center">
                 <Box align="center" justify="center" pad="small" gap="xsmall" direction="column" wrap={false} width="medium">
-                    {error ? <Button label="Invalid email/password." plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
+                    {error ? <Button label={errorMessage} plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
                     <TextInput name="email" placeholder="Please enter your email." reverse icon={<Mail />} value={email} onChange={(event) => {
                         setEmail(event.target.value);

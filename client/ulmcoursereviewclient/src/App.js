@@ -1,7 +1,7 @@
 import { Grommet } from 'grommet';
 import React, { Children } from 'react';
 import theme from './theme';
-import Dashboard from './Views/Dashboard';
+import DashboardIcon from './Views/Dashboard';
 import Home from './Views/Home';
 import Login from './Views/Login';
 import Register from './Views/Register';
@@ -59,7 +59,7 @@ var x = () => (
         <Route path="/login" Component={Login} />
         <Route path="/index" Component={Home} />
         <Route path="/register" Component={Register} />
-        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/dashboard" Component={DashboardIcon} />
         <Route path="/search" Component={SearchPage} />
       </Routes>
     </Router>
