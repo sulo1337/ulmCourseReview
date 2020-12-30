@@ -1,14 +1,11 @@
 import { Box, RadioButtonGroup } from 'grommet';
+import React, { useState } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
-import React, { useState, useEffect } from 'react';
 const SearchBar = (props) => {
     const [searchBy, setSearchBy] = useState("By Course");
     const course = props.course;
     const prof = props.prof;
     const handleSearch = props.handleSearch;
-    useEffect(() => {
-
-    }, []);
 
     const handleOnSearch = (string, cached) => {
     }

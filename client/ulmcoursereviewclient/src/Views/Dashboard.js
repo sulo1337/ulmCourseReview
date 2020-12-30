@@ -88,6 +88,7 @@ const DashBoard = (props) => {
             localStorage.removeItem('fname');
             push('/index');
         });
+        //eslint-disable-next-line
     }, []);
 
     const handleSearch = (item) => {
@@ -124,7 +125,7 @@ const DashBoard = (props) => {
                                 </Box>
                                 <Box align="center" justify="center">
                                     <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
-                                        {reviewItems.length == 0 ? "You have not published any reviews yet." : reviewItems}
+                                        {reviewItems.length === 0 ? "You have not published any reviews yet." : reviewItems}
                                     </Grid>
                                 </Box>
                             </Box>

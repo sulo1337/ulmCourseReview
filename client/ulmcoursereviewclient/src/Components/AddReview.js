@@ -67,7 +67,7 @@ const AddReview = (props) => {
             return;
         }
 
-        if (rating == 0) {
+        if (rating === 0) {
             setInvalid(true);
             setInvalidMessage("Please provide a rating");
             return;

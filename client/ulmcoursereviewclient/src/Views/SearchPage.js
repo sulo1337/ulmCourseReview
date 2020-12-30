@@ -44,6 +44,7 @@ const SearchPage = (props) => {
 
     useEffect(() => {
         search();
+        //eslint-disable-next-line
     }, []);
 
     const handleSearch = (item) => {

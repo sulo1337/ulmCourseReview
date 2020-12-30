@@ -61,7 +61,7 @@ const ReviewItem = (props) => {
         setUpvote(newupvote);
         let updatedreviews = myreviews;
         updatedreviews = updatedreviews.filter(item => {
-            if (item._id == reviewid) {
+            if (item._id === reviewid) {
                 item.upvote = newupvote;
             }
             return item;

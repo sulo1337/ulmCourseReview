@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Box, Button, Text, Collapsible } from 'grommet';
+import { Box, Button, Collapsible } from 'grommet';
 import { Trash } from 'grommet-icons';
+import React, { useState } from 'react';
 
 const Delete = (props) => {
 
