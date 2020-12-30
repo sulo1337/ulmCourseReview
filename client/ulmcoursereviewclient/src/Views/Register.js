@@ -7,32 +7,57 @@ const Register = () => {
     const { push } = React.useContext(RouterContext)
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
-    const [middle, setMiddle] = useState("");
+    const [middle, setMiddle] = useState(undefined);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [invalidEmail, setInvalidEmail] = useState(false);
-    const [formError, setFormError] = useState(false);
+    const [invalid, setInvalid] = useState(false);
+    const [invalidMessage, setInvalidMessage] = useState("");
     const [success, setSuccess] = useState(false);
-    const [registered, setRegistered] = useState(false);
 
     const reset = () => {
-        setInvalidEmail(false);
-        setFormError(false);
         setSuccess(false);
-        setRegistered(false);
+        setInvalid(false);
+        setInvalidMessage("");
     }
     const handleClick = () => {
         const url = "http://localhost:5000/api/student/register";
         reset();
-        if (fname === "" || lname === "" || email === "" || password === "") {
-            setFormError(true);
-            return;
-        }
-        if (!email.endsWith("@warhawks.ulm.edu")) {
-            setInvalidEmail(true);
+
+        if (!fname) {
+            setInvalid(true);
+            setInvalidMessage("First name cannot be empty!");
             return;
         }
 
+        if (!lname) {
+            setInvalid(true);
+            setInvalidMessage("Last name cannot be empty!");
+            return;
+        }
+
+        if (!email) {
+            setInvalid(true);
+            setInvalidMessage("Email cannot be empty!");
+            return;
+        }
+
+        if (!email.endsWith('@warhawks.ulm.edu')) {
+            setInvalid(true);
+            setInvalidMessage("Email must end with @warhawks.ulm.edu!");
+            return;
+        }
+
+        if (!password) {
+            setInvalid(true);
+            setInvalidMessage("Password cannot be empty!");
+            return;
+        }
+
+        if (password.length < 6) {
+            setInvalid(true);
+            setInvalidMessage("Password must be at least 6 characters long!");
+            return;
+        }
         axios.post(url, { fname, lname, middle, email, password })
             .then(response => {
                 setSuccess(true);
@@ -42,10 +67,12 @@ const Register = () => {
             })
             .catch(err => {
                 if (err.response.status === 409) {
-                    setRegistered(true);
+                    setInvalid(true);
+                    setInvalidMessage("User with given email is already registered!");
                 }
                 if (err.response.status === 400) {
-                    setFormError(true);
+                    setInvalid(true);
+                    setInvalidMessage("There is some error with the form!");
                 }
             });
     }
@@ -57,13 +84,9 @@ const Register = () => {
             <Box align="center" justify="center" direction="column">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "xsmall", "top": "xsmall" }}>
                     ULM Course Review<br />
-                    {invalidEmail ? <Button label="Email must end with @warhawks.ulm.edu" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
-                        : ""}
-                    {formError ? <Button label="Form Error" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
+                    {invalid ? <Button label={invalidMessage} plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
                     {success ? <Button label="Registered successfully, redirecting to login page..." plain disabled={false} color="status-ok" icon={<Checkmark color="status-ok" />} active={false} primary={false} reverse={false} secondary={false} />
-                        : ""}
-                    {registered ? <Button label="This user is already registered!" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
                 </Heading>
             </Box>
