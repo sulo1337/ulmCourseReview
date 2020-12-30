@@ -21,6 +21,7 @@ const studentSchema = mongoose.Schema({
     },
     password: {
         type: String,
+        required: true,
     }
 });
 
@@ -33,7 +34,8 @@ function validateStudent(student) {
         email: Joi.string().email().min(17).max(50).required(),
         fname: Joi.string().max(50).required(),
         lname: Joi.string().max(50).required(),
-        middle: Joi.string().max(50)
+        middle: Joi.string().max(50).allow(['', null, "", undefined]),
+        password: Joi.string().required()
     }
     return Joi.validate(student, schema);
 }
