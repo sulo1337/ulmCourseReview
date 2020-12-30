@@ -4,10 +4,8 @@ import { Like, Tag } from 'grommet-icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import StarRatingComponent from 'react-star-rating-component';
-import { RouterContext } from '../App';
 import Delete from './Delete';
 const ReviewItem = (props) => {
-    const { push } = React.useContext(RouterContext);
     let myreviews = props.myreviews;
     const dispatch = props.dispatch;
     const reviewid = props.review._id;
