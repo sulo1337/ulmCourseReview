@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Box, Grid, Heading, Tabs, Tab } from 'grommet';
+import { Dashboard as DashboardIcon, AddCircle } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { RouterContext } from '../App';
 import NavBar from '../Components/NavBar';
@@ -8,7 +9,9 @@ import SearchBar from '../Components/SearchBar';
 import { connect } from 'react-redux';
 import store from '../js/store/index';
 import AddReview from '../Components/AddReview';
-const Dashboard = (props) => {
+import RichTabTitle from '../Components/RichTabTitle';
+
+const DashBoard = (props) => {
     const { push } = React.useContext(RouterContext);
     const dispatch = props.dispatch;
     //eslint-disable-next-line
@@ -94,11 +97,22 @@ const Dashboard = (props) => {
     }
 
     return (
-        <Box align="center" flex="grow" wrap={false}>
+        <Box
+            align="center"
+            flex="grow"
+            wrap={false}
+            height="xlarge"
+            animation={[{ "type": "zoomIn", "duration": 1200, "size": "large" }, { "type": "fadeIn", "duration": 1200, "size": "large" }]}
+        >
             <NavBar />
 
             <Tabs width="large">
-                <Tab title="My Reviews">
+                <Tab title={
+                    <RichTabTitle
+                        icon={<DashboardIcon color="brand" />}
+                        label="My Reviews"
+                    />
+                }>
                     <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} overflow="visible" height="xxlarge">
                         <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
                         <Box align="start" justify="center">
@@ -115,13 +129,18 @@ const Dashboard = (props) => {
                         </Box>
                     </Box>
                 </Tab>
-                <Tab title="Add a Review">
+                <Tab title={
+                    <RichTabTitle
+                        icon={<AddCircle color="brand" />}
+                        label="Add a Review"
+                    />
+                }>
                     <Box pad="medium">
                         <AddReview />
                     </Box>
                 </Tab>
             </Tabs>
-        </Box>
+        </Box >
     )
 }
 
@@ -131,4 +150,4 @@ const mapStateToProps = state => ({
     myreviews: state.myreviews
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(DashBoard);

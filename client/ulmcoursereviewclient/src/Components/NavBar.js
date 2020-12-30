@@ -15,7 +15,7 @@ const NavBar = (props) => {
                 </Box>
                 <Box align="center" justify="end" direction="row" width="medium">
                     <Box align="center" justify="center" margin={{ "right": "medium" }}>
-                        <Button label="My Reviews" plain primary={false} color="white" onClick={() => push("/dashboard")} />
+                        <Button label="Dashboard" plain primary={false} color="white" onClick={() => push("/dashboard")} />
                     </Box>
                     <Box align="center" justify="center">
                         <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {

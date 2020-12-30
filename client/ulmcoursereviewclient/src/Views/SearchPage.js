@@ -52,7 +52,7 @@ const SearchPage = (props) => {
         search();
     }
     return (
-        <Box overflow="scroll" align="center" flex="grow" wrap={false}>
+        <Box overflow="scroll" align="center" flex="grow" wrap={false} height="xlarge">
             <NavBar />
             <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                 <Box align="center" justify="center" gap="small" margin="small">

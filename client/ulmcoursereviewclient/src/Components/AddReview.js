@@ -154,7 +154,7 @@ const AddReview = (props) => {
     return (
         <Box align="center" justify="center">
             <Grid columns={{ "size": "medium", "count": "fit" }} gap="medium" pad="small">
-                <Card pad="xsmall" justify="center" align="start">
+                <Card pad="xsmall" justify="center" align="start" background="light-1">
                     <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="xsmall">
                         <Box align="center" justify="between" direction="row" fill="horizontal">
                             <Heading level="3" margin="xsmall" color="brand">
