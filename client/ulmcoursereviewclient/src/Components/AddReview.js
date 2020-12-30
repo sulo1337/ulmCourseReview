@@ -123,7 +123,7 @@ const AddReview = (props) => {
             rating
         }
 
-        const url = "http://localhost:5000/api/review";
+        const url = process.env.REACT_APP_BASE_URL + "/api/review";
         const authtoken = localStorage.getItem('x-auth-token');
         setSuccess(false);
         setError(false);
@@ -153,8 +153,8 @@ const AddReview = (props) => {
     }
     return (
         <Box align="center" justify="center">
-            <Grid columns={{ "size": "medium", "count": "fit" }} gap="medium" pad="small">
-                <Card pad="xsmall" justify="center" align="start" background="light-1">
+            <Grid columns={{ "size": ["medium", "large"], "count": "fit" }} gap="medium" pad="small">
+                <Card pad="large" justify="center" align="start" background="light-1">
                     <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="xsmall">
                         <Box align="center" justify="between" direction="row" fill="horizontal">
                             <Heading level="3" margin="xsmall" color="brand">
@@ -175,7 +175,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Course
                     </Text>
-                                    <div style={{ width: 400, zIndex: 3 }}>
+                                    <div style={{ width: 350, zIndex: 3 }}>
                                         <ReactSearchAutocomplete
                                             key="courses"
                                             items={courses}
@@ -203,7 +203,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Professor
                     </Text>
-                                    <div style={{ width: 400, zIndex: 2 }}>
+                                    <div style={{ width: 350, zIndex: 2 }}>
                                         <ReactSearchAutocomplete
                                             key="professors"
                                             items={professors}

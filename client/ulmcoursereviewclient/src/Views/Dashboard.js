@@ -36,9 +36,9 @@ const DashBoard = (props) => {
             return;
         }
 
-        const url = "http://localhost:5000/api/review/my";
-        const profurl = "http://localhost:5000/api/professor";
-        const courseurl = "http://localhost:5000/api/course";
+        const url = process.env.REACT_APP_BASE_URL + "/api/review/my";
+        const profurl = process.env.REACT_APP_BASE_URL + "/api/professor";
+        const courseurl = process.env.REACT_APP_BASE_URL + "/api/course";
 
         const myReviewsReq = axios.get(url, {
             headers: {
@@ -102,8 +102,7 @@ const DashBoard = (props) => {
             align="center"
             flex="grow"
             wrap={false}
-            height="xlarge"
-
+            height="xxlarge"
         >
             <NavBar />
 
@@ -114,7 +113,7 @@ const DashBoard = (props) => {
                         label="My Reviews"
                     />
                 }>
-                    <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} overflow="visible" height="xxlarge">
+                    <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                         <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
                             <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
                             <Box align="start" justify="center" >
@@ -124,9 +123,12 @@ const DashBoard = (props) => {
               </Heading>
                                 </Box>
                                 <Box align="center" justify="center">
-                                    <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
-                                        {reviewItems.length === 0 ? "You have not published any reviews yet." : reviewItems}
-                                    </Grid>
+                                    <Box height="small">
+                                        <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
+                                            {reviewItems.length === 0 ? "You have not published any reviews yet." : reviewItems}
+                                        </Grid>
+                                    </Box>
+
                                 </Box>
                             </Box>
                         </Box>

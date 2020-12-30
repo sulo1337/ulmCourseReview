@@ -18,7 +18,7 @@ const Login = () => {
         }
     }, [push]);
     const handleClick = async () => {
-        const url = 'http://localhost:5000/api/student/login'
+        const url = process.env.REACT_APP_BASE_URL + '/api/student/login'
         axios.post(url, { email, password })
             .then(response => {
                 localStorage.setItem('x-auth-token', response.headers["x-auth-token"]);

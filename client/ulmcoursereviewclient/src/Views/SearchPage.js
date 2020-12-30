@@ -25,7 +25,7 @@ const SearchPage = (props) => {
             push("/dashboard");
             return;
         }
-        const url = "http://localhost:5000/api/review/" + searchType + "?id=" + searchId;
+        const url = process.env.REACT_APP_BASE_URL + "/api/review/" + searchType + "?id=" + searchId;
         axios.get(url)
             .then(response => {
                 setReviews(response.data.reviews);
@@ -53,7 +53,7 @@ const SearchPage = (props) => {
         search();
     }
     return (
-        <Box overflow="scroll" align="center" flex="grow" wrap={false} height="xlarge">
+        <Box align="center" flex="grow" wrap={false} height="xxlarge">
             <NavBar />
             <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                 <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
@@ -72,9 +72,12 @@ const SearchPage = (props) => {
                             </Box>
                         </Box>
                         <Box align="center" justify="center">
-                            <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="xsmall">
-                                {reviews.length !== 0 ? reviewItems : "There are no reviews yet."}
-                            </Grid>
+                            <Box height="small">
+                                <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="xsmall">
+                                    {reviews.length !== 0 ? reviewItems : "There are no reviews yet."}
+                                </Grid>
+                            </Box>
+
                         </Box>
                     </Box>
                 </Box>

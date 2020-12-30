@@ -20,7 +20,7 @@ const Register = () => {
         setInvalidMessage("");
     }
     const handleClick = () => {
-        const url = "http://localhost:5000/api/student/register";
+        const url = process.env.REACT_APP_BASE_URL + "/api/student/register";
         reset();
 
         if (!fname) {

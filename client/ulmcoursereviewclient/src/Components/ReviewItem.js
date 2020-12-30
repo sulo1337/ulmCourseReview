@@ -35,7 +35,7 @@ const ReviewItem = (props) => {
             //downvote
             newupvote = [...upvote];
             newupvote = newupvote.filter(item => item !== id);
-            const url = "http://localhost:5000/api/review/downvote/" + reviewid;
+            const url = process.env.REACT_APP_BASE_URL + "/api/review/downvote/" + reviewid;
             axios.put(url, [], {
                 headers: {
                     "x-auth-token": localStorage.getItem('x-auth-token')
@@ -48,7 +48,7 @@ const ReviewItem = (props) => {
             //upvote
             newupvote = [...upvote];
             newupvote.push(id);
-            const url = "http://localhost:5000/api/review/upvote/" + reviewid;
+            const url = process.env.REACT_APP_BASE_URL + "/api/review/upvote/" + reviewid;
             axios.put(url, [], {
                 headers: {
                     "x-auth-token": localStorage.getItem('x-auth-token')
@@ -74,7 +74,7 @@ const ReviewItem = (props) => {
     }
 
     const handleDelete = () => {
-        const url = "http://localhost:5000/api/review/" + reviewid;
+        const url = process.env.REACT_APP_BASE_URL + "/api/review/" + reviewid;
         axios.delete(url, {
             headers: {
                 "x-auth-token": localStorage.getItem('x-auth-token')
