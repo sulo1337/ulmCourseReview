@@ -15,7 +15,7 @@ const Dashboard = (props) => {
     let reviews = props.myreviews;
     const [name, setName] = useState("");
     const reviewItems = reviews.map((review) => {
-        return (<ReviewItem key={review._id} review={review} editable={true} />);
+        return (<ReviewItem key={review._id} review={review} deletable={true} />);
     });
     const prof = props.professors;
     const course = props.courses;

@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Paragraph, Text } from 'grommet';
-import { Edit, Like, Tag } from 'grommet-icons';
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Collapsible, Paragraph, Text } from 'grommet';
+import { Trash, Like, Tag } from 'grommet-icons';
 import StarRatingComponent from 'react-star-rating-component';
+import Delete from './Delete';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
 import { connect } from 'react-redux';
@@ -24,7 +25,7 @@ const ReviewItem = (props) => {
     const desc = props.review.description;
     const [upvote, setUpvote] = useState(props.review.upvote);
     const anon = props.review.anon;
-    const editable = props.editable;
+    const deletable = props.deletable;
     const tagButtons = tags.map((tag, index) => {
         return (<Button key={index} label={tag} size="small" primary disabled={false} color="dark-3" icon={<Tag />} active={false} />);
     })
@@ -73,14 +74,33 @@ const ReviewItem = (props) => {
             payload: updatedreviews
         });
     }
-    return (<Card pad="medium" justify="center">
+
+    const handleDelete = () => {
+        const url = "http://localhost:5000/api/review/" + reviewid;
+        axios.delete(url, {
+            headers: {
+                "x-auth-token": localStorage.getItem('x-auth-token')
+            }
+        }).then(response => {
+            dispatch({
+                type: "UPDATE_MYREVIEWS",
+                payload: response.data
+            });
+        })
+            .catch(err => {
+                console.log(err.response);
+            })
+    }
+    return (<Card pad="medium" justify="center" background="light-3">
         <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="start" justify="center">
                 <Box align="center" justify="start" direction="row" gap="xxsmall">
                     <Text size="xlarge" color="brand">
                         {ccode}
                     </Text>
-                    {editable ? <Button icon={<Edit />} onClick={() => push("/editreview")} /> : ""}
+                    {deletable
+                        ? <Delete onDelete={handleDelete} />
+                        : ""}
                 </Box>
                 <Text size="xsmall" textAlign="start" color="brand">
                     {cname}
