@@ -1,4 +1,4 @@
-import { Box, Button, Header, Nav, Text } from 'grommet';
+import { Box, Button, Header, Nav, Heading } from 'grommet';
 import React from 'react';
 import { RouterContext } from '../App';
 import { connect } from 'react-redux';
@@ -9,13 +9,13 @@ const NavBar = (props) => {
         <Nav align="start" direction="row-responsive" justify="end" background={{ "color": "brand" }}>
             <Box align="center" justify="between" direction="row" width="large" margin="medium">
                 <Box align="center" justify="center">
-                    <Text>
+                    <Heading level="4" textAlign="start" margin="xsmall">
                         ULM Course Review
-          </Text>
+              </Heading>
                 </Box>
-                <Box align="center" justify="end" direction="row" width="medium">
+                <Box align="center" justify="end" direction="row-responsive" width="medium">
                     <Box align="center" justify="center" margin={{ "right": "medium" }}>
-                        <Button label="Dashboard" plain primary={false} color="white" onClick={() => push("/dashboard")} />
+                        <Button label="Dashboard" plain primary={false} color="white" onClick={() => push("/dashboard")} size="large" />
                     </Box>
                     <Box align="center" justify="center">
                         <Button label="Logout" active={false} disabled={false} color="white" hoverIndicator={false} plain onClick={() => {

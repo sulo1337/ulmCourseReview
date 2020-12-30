@@ -9,7 +9,7 @@ const Home = () => {
     }, []);
 
     return (
-        <Box align="center" justify="center" height="large" background={{ "color": "white" }}>
+        <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
             <Box align="center" justify="center">
                 <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
             </Box>

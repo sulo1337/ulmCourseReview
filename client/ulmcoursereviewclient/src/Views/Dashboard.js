@@ -102,7 +102,7 @@ const DashBoard = (props) => {
             flex="grow"
             wrap={false}
             height="xlarge"
-            class="animate__flipInX"
+
         >
             <NavBar />
 
@@ -114,19 +114,22 @@ const DashBoard = (props) => {
                     />
                 }>
                     <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} overflow="visible" height="xxlarge">
-                        <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
-                        <Box align="start" justify="center">
-                            <Box align="start" justify="start" direction="column">
-                                <Heading level="3" textAlign="start" margin="small">
-                                    Hi {name}, here are your reviews
+                        <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
+                            <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
+                            <Box align="start" justify="center" >
+                                <Box align="start" justify="start" direction="column">
+                                    <Heading level="3" textAlign="start" margin="small">
+                                        Hi {name}, here are your reviews
               </Heading>
-                            </Box>
-                            <Box align="center" justify="center">
-                                <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
-                                    {reviewItems.length == 0 ? "You have not published any reviews yet." : reviewItems}
-                                </Grid>
+                                </Box>
+                                <Box align="center" justify="center">
+                                    <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
+                                        {reviewItems.length == 0 ? "You have not published any reviews yet." : reviewItems}
+                                    </Grid>
+                                </Box>
                             </Box>
                         </Box>
+
                     </Box>
                 </Tab>
                 <Tab title={
@@ -135,7 +138,7 @@ const DashBoard = (props) => {
                         label="Add a Review"
                     />
                 }>
-                    <Box pad="medium">
+                    <Box pad="medium" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn" }]}>
                         <AddReview />
                     </Box>
                 </Tab>

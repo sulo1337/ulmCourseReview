@@ -7,7 +7,7 @@ const Register = () => {
     const { push } = React.useContext(RouterContext)
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
-    const [middle, setMiddle] = useState(" ");
+    const [middle, setMiddle] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [invalidEmail, setInvalidEmail] = useState(false);
@@ -50,22 +50,19 @@ const Register = () => {
             });
     }
     return (
-        <Box align="center" justify="center" height="large" background={{ "color": "white" }}>
+        <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
             <Box align="center" justify="center">
                 <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
             </Box>
             <Box align="center" justify="center" direction="column">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "xsmall", "top": "xsmall" }}>
-                    ULM Course Review
+                    ULM Course Review<br />
                     {invalidEmail ? <Button label="Email must end with @warhawks.ulm.edu" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
-                    <br />
                     {formError ? <Button label="Form Error" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
-                    <br />
                     {success ? <Button label="Registered successfully, redirecting to login page..." plain disabled={false} color="status-ok" icon={<Checkmark color="status-ok" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
-                    <br />
                     {registered ? <Button label="This user is already registered!" plain disabled={false} color="status-critical" icon={<Alert color="status-critical" />} active={false} primary={false} reverse={false} secondary={false} />
                         : ""}
                 </Heading>

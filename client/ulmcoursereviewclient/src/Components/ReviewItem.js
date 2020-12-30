@@ -91,7 +91,7 @@ const ReviewItem = (props) => {
                 console.log(err.response);
             })
     }
-    return (<Card pad="medium" justify="center" background="light-1">
+    return (<Card pad="medium" justify="center" background="light-1" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
         <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
             <Box align="start" justify="center">
                 <Box align="center" justify="start" direction="row" gap="xxsmall">

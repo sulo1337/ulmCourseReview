@@ -55,26 +55,29 @@ const SearchPage = (props) => {
         <Box overflow="scroll" align="center" flex="grow" wrap={false} height="xlarge">
             <NavBar />
             <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
-                <Box align="center" justify="center" gap="small" margin="small">
-                    <SearchBar course={course} prof={prof} handleSearch={handleSearch} />
-                </Box>
-                <Box align="start" justify="center" pad="small">
-                    <Box align="start" justify="start" direction="column" gap="xxsmall">
+                <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
+                    <Box align="center" justify="center" gap="small" margin="small">
+                        <SearchBar course={course} prof={prof} handleSearch={handleSearch} />
+                    </Box>
+                    <Box align="start" justify="center" pad="small">
+                        <Box align="start" justify="start" direction="column" gap="xxsmall">
+                            <Box align="center" justify="center">
+                                <Heading level="3" textAlign="start" margin={{ "top": "xsmall", "vertical": "xsmall", "horizontal": "none", "bottom": "xsmall", "left": "none", "right": "none" }}>
+                                    Reviews For {reviewFor}
+                                </Heading>
+                            </Box>
+                            <Box align="center" justify="center" margin={{ "bottom": "medium" }}>
+                                <Select options={["Most Recent", "Least Recent", "Top Rated", "Most Liked"]} size="small" plain={false} placeholder="Sort by" />
+                            </Box>
+                        </Box>
                         <Box align="center" justify="center">
-                            <Heading level="3" textAlign="start" margin={{ "top": "xsmall", "vertical": "xsmall", "horizontal": "none", "bottom": "xsmall", "left": "none", "right": "none" }}>
-                                Reviews For {reviewFor}
-                            </Heading>
+                            <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="xsmall">
+                                {reviews.length !== 0 ? reviewItems : "There are no reviews yet."}
+                            </Grid>
                         </Box>
-                        <Box align="center" justify="center" margin={{ "bottom": "medium" }}>
-                            <Select options={["Most Recent", "Least Recent", "Top Rated", "Most Liked"]} size="small" plain={false} placeholder="Sort by" />
-                        </Box>
-                    </Box>
-                    <Box align="center" justify="center">
-                        <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="xsmall">
-                            {reviews.length !== 0 ? reviewItems : "There are no reviews yet."}
-                        </Grid>
                     </Box>
                 </Box>
+
             </Box>
         </Box>
     )
