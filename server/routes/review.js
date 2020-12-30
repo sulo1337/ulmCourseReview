@@ -149,12 +149,15 @@ router.delete('/:id', auth, async (req, res) => {
     if (!review) return res.status(404).send(`Review not found`);
     if (review.student != req.student._id) return res.status(401).send(`Unauthorized`);
 
-    Review.findByIdAndRemove(req.params.id)
+    await Review.findByIdAndRemove(req.params.id);
+
+    Review.find({ student: req.student._id }).lean()
         .populate('student', { password: 0, email: 0 })
         .populate('professor')
         .populate('course')
-        .then(theReview => {
-            return res.status(200).send(theReview);
+        .sort('-date')
+        .then(reviews => {
+            return res.status(200).send(reviews);
         })
         .catch(err => {
             return res.status(500).send(`Internal Server Error`);
