@@ -102,7 +102,7 @@ const DashBoard = (props) => {
             flex="grow"
             wrap={false}
             height="xlarge"
-            animation={[{ "type": "zoomIn", "duration": 1200, "size": "large" }, { "type": "fadeIn", "duration": 1200, "size": "large" }]}
+            class="animate__flipInX"
         >
             <NavBar />
 
