@@ -96,7 +96,9 @@ router.post('/', auth, async (req, res) => {
         student: req.student._id,
         professor: req.body.professor,
         course: req.body.course,
-        rating: req.body.rating
+        rating: req.body.rating,
+        anon: req.body.anon,
+        tags: []
     });
     await review.save();
     Review.find({ student: req.student._id }).lean()
