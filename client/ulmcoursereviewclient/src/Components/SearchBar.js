@@ -37,7 +37,7 @@ const SearchBar = (props) => {
                         fontWeight: 'bold'
                     }
                 }
-                autoFocus
+                useCaching={false}
             />
         </div>
         <RadioButtonGroup value={searchBy} name="searchBy" options={["By Course", "By Professor"]} direction="row" onClick={(event) => {

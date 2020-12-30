@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import StarRatingComponent from 'react-star-rating-component';
 
 const AddReview = (props) => {
     const professors = props.professors;
@@ -22,15 +23,17 @@ const AddReview = (props) => {
     const [invalidMessage, setInvalidMessage] = useState(false);
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [rating, setRating] = useState(0);
 
     const resetFormInput = () => {
         setDesc('');
         setYear('');
         setSem('');
         setTextbook(undefined);
-        setAttendance(undefined);
+        setAttendance("x");
         setProfessor("");
         setCourse("");
+        setAnon(false);
     }
     const handleOnCourseSelect = (citem) => {
         setCourse(citem.id);
@@ -64,16 +67,15 @@ const AddReview = (props) => {
             return;
         }
 
-        if (desc.length > 300) {
+        if (rating == 0) {
             setInvalid(true);
-            setInvalidMessage("Description must be at most 300 characters.");
+            setInvalidMessage("Please provide a rating");
             return;
         }
 
-
-        if (desc.length < 10) {
+        if (desc.length < 10 || desc.length > 300) {
             setInvalid(true);
-            setInvalidMessage("Description must be at least 10 characters.");
+            setInvalidMessage("Description must be between 10-300 characters.");
             return;
         }
 
@@ -118,7 +120,7 @@ const AddReview = (props) => {
             description: desc,
             tags,
             anon,
-            rating: 4
+            rating
         }
 
         const url = "http://localhost:5000/api/review";
@@ -144,6 +146,11 @@ const AddReview = (props) => {
 
             });
     }
+
+    const ratingHandler = (star) => {
+        console.log(star);
+        setRating(star);
+    }
     return (
         <Box align="center" justify="center">
             <Grid columns={{ "size": "medium", "count": "fit" }} gap="medium" pad="small">
@@ -168,12 +175,18 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Course
                     </Text>
-                                    <div style={{ width: 400 }}>
+                                    <div style={{ width: 400, zIndex: 3 }}>
                                         <ReactSearchAutocomplete
+                                            key="courses"
                                             items={courses}
                                             onSelect={handleOnCourseSelect}
                                             maxResults={5}
                                             placeholder="UNIV 1001"
+                                            fuseOptions={
+                                                {
+                                                    keys: ["name"]
+                                                }
+                                            }
                                             styling={
                                                 {
                                                     fontFamily: "Helvetica",
@@ -182,7 +195,7 @@ const AddReview = (props) => {
                                                     border: "1px solid #cccccc"
                                                 }
                                             }
-                                            autoFocus
+                                            useCaching={false}
                                         />
                                     </div>
                                 </Box>
@@ -190,8 +203,9 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Professor
                     </Text>
-                                    <div style={{ width: 400 }}>
+                                    <div style={{ width: 400, zIndex: 2 }}>
                                         <ReactSearchAutocomplete
+                                            key="professors"
                                             items={professors}
                                             onSelect={handleOnProfessorSelect}
                                             maxResults={5}
@@ -204,7 +218,7 @@ const AddReview = (props) => {
                                                     border: "1px solid #cccccc"
                                                 }
                                             }
-                                            autoFocus
+                                            useCaching={false}
                                         />
                                     </div>
                                 </Box>
@@ -212,6 +226,19 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Your review
                     </Text>
+                                    <div style={
+                                        {
+                                            transform: "scale(2)",
+                                            margin: "0 0 0 45px"
+                                        }
+                                    }>
+                                        <StarRatingComponent
+                                            name="reviewrate"
+                                            starCount={5}
+                                            value={rating}
+                                            onStarClick={ratingHandler}
+                                        />
+                                    </div>
                                     <TextArea resize="vertical" placeholder="Upto 300 characters..." size="medium" plain={false} fill={false} value={desc} onChange={(event) => {
                                         setDesc(event.target.value);
                                     }} />

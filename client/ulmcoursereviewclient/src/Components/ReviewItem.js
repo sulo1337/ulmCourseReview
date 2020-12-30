@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Paragraph, Text } from 'grommet';
-import { Edit, Like, Star, StarHalf, Tag } from 'grommet-icons';
+import { Edit, Like, Tag } from 'grommet-icons';
+import StarRatingComponent from 'react-star-rating-component';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
 import { connect } from 'react-redux';
@@ -9,6 +10,7 @@ const ReviewItem = (props) => {
     let myreviews = props.myreviews;
     const dispatch = props.dispatch;
     const reviewid = props.review._id;
+    const rating = props.review.rating;
     const ccode = props.review.course.ccode;
     const rname = props.review.student.fname + " " + props.review.student.lname;
     const cname = props.review.course.cname;
@@ -86,12 +88,16 @@ const ReviewItem = (props) => {
                 <Text size="medium" textAlign="start" color="brand">
                     {prof}
                 </Text>
-                <Box align="center" justify="center" direction="row">
-                    <Star color="graph-1" />
-                    <Star color="graph-1" />
-                    <StarHalf color="graph-1" />
-                    <Star color="active" />
-                    <Star color="active" />
+                <Box align="center" justify="center" direction="row" style={{
+                    transform: "scale(1.5)",
+                    margin: "0 0 0 15px"
+                }}>
+                    <StarRatingComponent
+                        name="reviewrate"
+                        starCount={5}
+                        value={rating}
+                        editing={false}
+                    />
                 </Box>
             </Box>
             <Box align="end" justify="center" width="small">
