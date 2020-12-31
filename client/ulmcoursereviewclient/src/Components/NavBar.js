@@ -34,6 +34,9 @@ const NavBar = (props) => {
                                 type: "UPDATE_MYREVIEWS",
                                 payload: []
                             });
+                            props.dispatch({
+                                type: "NOT_LOADING",
+                            });
                             push('/index');
                         }} />
                     </Box>
