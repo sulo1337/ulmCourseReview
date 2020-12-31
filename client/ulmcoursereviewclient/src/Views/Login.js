@@ -1,15 +1,19 @@
-import { Box, Button, Heading, Image, TextInput } from 'grommet';
+import { Box, Button, Heading, TextInput } from 'grommet';
 import { Lock, Mail, Alert } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { RouterContext } from '../App';
+import { connect } from 'react-redux';
 import axios from 'axios';
-
-const Login = () => {
+import Logo from '../ulm-academic-logo-circle.png';
+import Loading from 'react-fullscreen-loading';
+const Login = (props) => {
     const { push } = React.useContext(RouterContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const loading = props.loading;
+    const dispatch = props.dispatch;
     useEffect(() => {
         const authtoken = localStorage.getItem('x-auth-token');
 
@@ -21,6 +25,9 @@ const Login = () => {
     const handleClick = async () => {
         setError(false);
         const url = process.env.REACT_APP_BASE_URL + '/api/student/login'
+        dispatch({
+            type: "LOADING",
+        });
         axios.post(url, { email, password })
             .then(response => {
                 localStorage.setItem('x-auth-token', response.headers["x-auth-token"]);
@@ -35,12 +42,16 @@ const Login = () => {
                     return;
                 }
                 setErrorMessage("Invalid Email/Password!");
+                dispatch({
+                    type: "NOT_LOADING",
+                });
             })
     }
     return (
         <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
+            <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <Box align="center" justify="center">
-                <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
+                <img alt="logo" src={Logo} />
             </Box>
             <Box align="center" justify="center" direction="column">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "xsmall", "top": "xsmall" }}>
@@ -67,4 +78,11 @@ const Login = () => {
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    professors: state.professors,
+    courses: state.courses,
+    myreviews: state.myreviews,
+    loading: state.loading,
+});
+
+export default connect(mapStateToProps)(Login);

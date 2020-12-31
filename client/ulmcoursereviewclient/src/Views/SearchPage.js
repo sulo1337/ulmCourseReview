@@ -6,10 +6,11 @@ import { RouterContext } from '../App';
 import SearchBar from '../Components/SearchBar';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
+import Loading from 'react-fullscreen-loading';
 const SearchPage = (props) => {
     const { push } = React.useContext(RouterContext);
-
+    const loading = props.loading;
+    const dispatch = props.dispatch;
     const [reviews, setReviews] = useState([]);
     const [reviewFor, setReviewFor] = useState("");
     const reviewItems = reviews.map((review) => {
@@ -26,6 +27,9 @@ const SearchPage = (props) => {
             return;
         }
         const url = process.env.REACT_APP_BASE_URL + "/api/review/" + searchType + "?id=" + searchId;
+        dispatch({
+            type: "LOADING",
+        });
         axios.get(url)
             .then(response => {
                 setReviews(response.data.reviews);
@@ -36,6 +40,9 @@ const SearchPage = (props) => {
                 if (searchType === "course") {
                     setReviewFor(response.data.course.ccode);
                 }
+                dispatch({
+                    type: "NOT_LOADING",
+                });
             })
             .catch(err => {
                 console.log(err.message);
@@ -54,6 +61,7 @@ const SearchPage = (props) => {
     }
     return (
         <Box align="center" flex="grow" wrap={false} height="xxlarge">
+            <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <NavBar />
             <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                 <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
@@ -90,7 +98,8 @@ const SearchPage = (props) => {
 const mapStateToProps = state => ({
     professors: state.professors,
     courses: state.courses,
-    myreviews: state.myreviews
+    myreviews: state.myreviews,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps)(SearchPage);

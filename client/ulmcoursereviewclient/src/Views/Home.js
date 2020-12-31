@@ -1,6 +1,7 @@
-import { Box, Button, Heading, Image, Text } from 'grommet';
+import { Box, Button, Heading, Text } from 'grommet';
 import React, { useEffect } from 'react';
 import { RouterContext } from '../App';
+import Logo from '../ulm-academic-logo-circle.png';
 const Home = () => {
     const { push } = React.useContext(RouterContext)
 
@@ -11,7 +12,7 @@ const Home = () => {
     return (
         <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
             <Box align="center" justify="center">
-                <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
+                <img alt="logo" src={Logo} />
             </Box>
             <Box align="center" justify="center">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "none" }}>

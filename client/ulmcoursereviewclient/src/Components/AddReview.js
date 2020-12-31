@@ -9,6 +9,7 @@ import StarRatingComponent from 'react-star-rating-component';
 const AddReview = (props) => {
     const professors = props.professors;
     const courses = props.courses;
+    const dispatch = props.dispatch;
     const [desc, setDesc] = useState("");
     const [year, setYear] = useState("");
     const [sem, setSem] = useState("");
@@ -127,6 +128,9 @@ const AddReview = (props) => {
         const authtoken = localStorage.getItem('x-auth-token');
         setSuccess(false);
         setError(false);
+        dispatch({
+            type: "LOADING",
+        });
         axios.post(url, review, {
             headers: {
                 "x-auth-token": authtoken,
@@ -134,16 +138,18 @@ const AddReview = (props) => {
         })
             .then(response => {
                 setSuccess(true);
-                props.dispatch({
+                dispatch({
                     type: "UPDATE_MYREVIEWS",
                     payload: response.data
                 });
                 resetFormInput();
+                dispatch({
+                    type: "NOT_LOADING",
+                });
             })
             .catch(err => {
                 setError(true);
                 console.log(err.response);
-
             });
     }
 

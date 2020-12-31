@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import store from '../js/store/index';
 import AddReview from '../Components/AddReview';
 import RichTabTitle from '../Components/RichTabTitle';
+import Loading from 'react-fullscreen-loading';
 
 const DashBoard = (props) => {
     const { push } = React.useContext(RouterContext);
@@ -22,7 +23,7 @@ const DashBoard = (props) => {
     });
     const prof = props.professors;
     const course = props.courses;
-
+    const loading = props.loading;
     useEffect(() => {
         const authtoken = localStorage.getItem('x-auth-token');
         if (!authtoken) {
@@ -48,6 +49,9 @@ const DashBoard = (props) => {
         const profReq = axios.get(profurl);
         const courseReq = axios.get(courseurl);
 
+        dispatch({
+            type: "LOADING",
+        });
         axios.all([myReviewsReq, profReq, courseReq]).then(axios.spread((...responses) => {
             const myReviewsRes = responses[0];
             const profRes = responses[1];
@@ -82,6 +86,10 @@ const DashBoard = (props) => {
                 type: "UPDATE_PROFESSORS",
                 payload: profArray
             })
+
+            dispatch({
+                type: "NOT_LOADING",
+            });
         })).catch(err => {
             console.log(err.message);
             localStorage.removeItem('x-auth-token');
@@ -104,6 +112,7 @@ const DashBoard = (props) => {
             wrap={false}
             height="xxlarge"
         >
+            <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <NavBar />
 
             <Tabs width="large">
@@ -122,6 +131,7 @@ const DashBoard = (props) => {
                                         Hi {name}, here are your reviews
               </Heading>
                                 </Box>
+
                                 <Box align="center" justify="center">
                                     <Box height="small">
                                         <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
@@ -153,7 +163,8 @@ const DashBoard = (props) => {
 const mapStateToProps = state => ({
     professors: state.professors,
     courses: state.courses,
-    myreviews: state.myreviews
+    myreviews: state.myreviews,
+    loading: state.loading,
 });
 
 export default connect(mapStateToProps)(DashBoard);

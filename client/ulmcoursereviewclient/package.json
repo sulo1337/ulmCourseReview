@@ -2,6 +2,7 @@
   "name": "ulmCourseReview",
   "version": "1.0.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
@@ -11,6 +12,8 @@
     "grommet-icons": "https://github.com/grommet/grommet-icons/tarball/stable",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-fullscreen-loading": "0.0.4",
+    "react-loading-overlay": "^1.0.1",
     "react-redux": "^7.2.2",
     "react-scripts": "4.0.1",
     "react-search-autocomplete": "^1.0.6",

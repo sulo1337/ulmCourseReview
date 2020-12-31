@@ -75,6 +75,9 @@ const ReviewItem = (props) => {
 
     const handleDelete = () => {
         const url = process.env.REACT_APP_BASE_URL + "/api/review/" + reviewid;
+        dispatch({
+            type: "LOADING",
+        });
         axios.delete(url, {
             headers: {
                 "x-auth-token": localStorage.getItem('x-auth-token')
@@ -83,6 +86,9 @@ const ReviewItem = (props) => {
             dispatch({
                 type: "UPDATE_MYREVIEWS",
                 payload: response.data
+            });
+            dispatch({
+                type: "NOT_LOADING",
             });
         })
             .catch(err => {

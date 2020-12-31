@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { Box, Button, Heading, Image, TextInput } from 'grommet';
+import { Box, Button, Heading, TextInput } from 'grommet';
 import { Lock, Mail, Alert, Checkmark } from 'grommet-icons';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
-const Register = () => {
+import { connect } from 'react-redux';
+import Logo from '../ulm-academic-logo-circle.png';
+import Loading from 'react-fullscreen-loading';
+const Register = (props) => {
     const { push } = React.useContext(RouterContext)
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
@@ -13,7 +16,8 @@ const Register = () => {
     const [invalid, setInvalid] = useState(false);
     const [invalidMessage, setInvalidMessage] = useState("");
     const [success, setSuccess] = useState(false);
-
+    const loading = props.loading;
+    const dispatch = props.dispatch;
     const reset = () => {
         setSuccess(false);
         setInvalid(false);
@@ -58,12 +62,18 @@ const Register = () => {
             setInvalidMessage("Password must be at least 6 characters long!");
             return;
         }
+        dispatch({
+            type: "LOADING",
+        });
         axios.post(url, { fname, lname, middle, email, password })
             .then(response => {
                 setSuccess(true);
                 setTimeout(() => {
                     push('/login');
                 }, 4000);
+                dispatch({
+                    type: "NOT_LOADING",
+                });
             })
             .catch(err => {
                 if (err.response === undefined) {
@@ -79,12 +89,16 @@ const Register = () => {
                     setInvalid(true);
                     setInvalidMessage("There is some error with the form!");
                 }
+                dispatch({
+                    type: "NOT_LOADING",
+                });
             });
     }
     return (
         <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
+            <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <Box align="center" justify="center">
-                <Image src="https://www.ulm.edu/_resources/images/ulm-academic-logo-circle.png" />
+                <img alt="logo" src={Logo} />
             </Box>
             <Box align="center" justify="center" direction="column">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "xsmall", "top": "xsmall" }}>
@@ -122,4 +136,11 @@ const Register = () => {
     )
 }
 
-export default Register;
+const mapStateToProps = state => ({
+    professors: state.professors,
+    courses: state.courses,
+    myreviews: state.myreviews,
+    loading: state.loading,
+});
+
+export default connect(mapStateToProps)(Register);

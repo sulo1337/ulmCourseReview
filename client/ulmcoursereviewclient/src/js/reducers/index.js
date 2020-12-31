@@ -22,6 +22,16 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 myreviews: action.payload
             };
+        case "LOADING":
+            return {
+                ...state,
+                loading: true,
+            }
+        case "NOT_LOADING":
+            return {
+                ...state,
+                loading: false,
+            }
         default:
             return state;
     }
