@@ -4,7 +4,7 @@ import { Lock, Mail, Alert, Checkmark } from 'grommet-icons';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
 import { connect } from 'react-redux';
-import Logo from '../ulm-academic-logo-circle.png';
+import Logo from '../logo.png';
 import Loading from 'react-fullscreen-loading';
 const Register = (props) => {
     const { push } = React.useContext(RouterContext)
@@ -13,6 +13,7 @@ const Register = (props) => {
     const [middle, setMiddle] = useState(undefined);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [cpassword, setCpassword] = useState("");
     const [invalid, setInvalid] = useState(false);
     const [invalidMessage, setInvalidMessage] = useState("");
     const [success, setSuccess] = useState(false);
@@ -62,6 +63,12 @@ const Register = (props) => {
             setInvalidMessage("Password must be at least 6 characters long!");
             return;
         }
+
+        if (password !== cpassword) {
+            setInvalid(true);
+            setInvalidMessage("Passwords do not match!");
+            return;
+        }
         dispatch({
             type: "LOADING",
         });
@@ -98,7 +105,7 @@ const Register = (props) => {
         <Box align="center" justify="center" height="large" background={{ "color": "white" }} animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
             <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <Box align="center" justify="center">
-                <img alt="logo" src={Logo} />
+                <img alt="logo" src={Logo} height="288px" width="288px" />
             </Box>
             <Box align="center" justify="center" direction="column">
                 <Heading level="4" size="large" textAlign="center" truncate={false} margin={{ "bottom": "xsmall", "top": "xsmall" }}>
@@ -125,6 +132,9 @@ const Register = (props) => {
                     }} />
                     <TextInput reverse icon={<Lock />} name="password" placeholder="Password" type="password" value={password} onChange={(event) => {
                         setPassword(event.target.value);
+                    }} />
+                    <TextInput reverse icon={<Lock />} name="password" placeholder="Confirm password" type="password" value={cpassword} onChange={(event) => {
+                        setCpassword(event.target.value);
                     }} />
                     <Box align="center" justify="center">
                         <Button label="Register" hoverIndicator={false} primary margin="xsmall" fill="horizontal" onClick={handleClick} />

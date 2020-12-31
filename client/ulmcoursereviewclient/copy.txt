@@ -1,0 +1,1 @@
+sudo cp -TRv dist/ /var/www/html/
