@@ -1,4 +1,5 @@
 import { Box, Button, Collapsible } from 'grommet';
+import { Checkmark, Close } from 'grommet-icons';
 import { Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
@@ -17,11 +18,11 @@ const Delete = (props) => {
                     pad="xsmall"
                     align="center"
                     justify="center"
-                    direction="row-responsive"
+                    direction="row"
                     gap="xsmall"
                 >
-                    <Button label="Confirm" primary color="status-critical" size="small" onClick={onDelete} />
-                    <Button label="Cancel" color="status-critical" size="small" onClick={() => {
+                    <Button icon={<Checkmark color="status-critical" />} size="small" onClick={onDelete} />
+                    <Button icon={<Close color="dark-1" />} size="small" onClick={() => {
                         setOpen(false);
                     }} />
                 </Box>
