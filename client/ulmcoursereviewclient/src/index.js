@@ -6,13 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import store from './js/store/index'
 import { Provider } from 'react-redux';
 
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('./src/sw.js').then(function (registration) {
-    console.log('ServiceWorker registration successful with scope:', registration.scope);
-  }).catch(function (error) {
-    console.log('ServiceWorker registration failed:', error);
-  });
-}
+// if (navigator.serviceWorker) {
+//   navigator.serviceWorker.register('./src/sw.js').then(function (registration) {
+//     console.log('ServiceWorker registration successful with scope:', registration.scope);
+//   }).catch(function (error) {
+//     console.log('ServiceWorker registration failed:', error);
+//   });
+// }
 
 ReactDOM.render(
   <React.StrictMode>

@@ -46,7 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "webpack-manifest-plugin": "^3.0.0"
-  }
+  "devDependencies": {}
 }

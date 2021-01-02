@@ -20,7 +20,7 @@ const SearchBar = (props) => {
     const handleOnFocus = () => {
     }
     return (<Box align="center" justify="center" gap="small" margin="small">
-        <div style={{ width: 250 }}>
+        <div style={{ width: 250, zIndex: 2 }}>
             <ReactSearchAutocomplete
                 items={searchBy === "By Course" ? course : prof}
                 onSearch={handleOnSearch}

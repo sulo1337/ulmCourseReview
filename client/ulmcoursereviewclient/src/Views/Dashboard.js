@@ -124,7 +124,7 @@ const DashBoard = (props) => {
                 }>
                     <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                         <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
-                            <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
+                            <SearchBar prof={prof} course={course} handleSearch={handleSearch} style={{ zIndex: 2 }} />
                             <Box align="start" justify="center" >
                                 <Box align="start" justify="start" direction="column">
                                     <Heading level="3" textAlign="start" margin="small">

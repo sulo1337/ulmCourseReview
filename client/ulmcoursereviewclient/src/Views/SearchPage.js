@@ -13,6 +13,7 @@ const SearchPage = (props) => {
     const dispatch = props.dispatch;
     const [reviews, setReviews] = useState([]);
     const [reviewFor, setReviewFor] = useState("");
+    const [sortBy, setSortBy] = useState("");
     const reviewItems = reviews.map((review) => {
         return (<ReviewItem key={review._id} review={review} />);
     });
@@ -20,6 +21,7 @@ const SearchPage = (props) => {
     const course = props.courses;
 
     const search = () => {
+        setSortBy("");
         const searchType = localStorage.getItem('searchType');
         const searchId = localStorage.getItem('searchId');
         if (!searchType || !searchId) {
@@ -59,6 +61,24 @@ const SearchPage = (props) => {
         localStorage.setItem('searchType', item.type);
         search();
     }
+
+    const sort = (option) => {
+        let newReviews = [...reviews];
+        if (option === "Most Recent") {
+            newReviews.sort((a, b) => (a.date < b.date) ? 1 : -1);
+        }
+        if (option === "Least Recent") {
+            newReviews.sort((a, b) => (a.date > b.date) ? 1 : -1);
+        }
+        if (option === "Top Rated") {
+            newReviews.sort((a, b) => (a.rating < b.rating) ? 1 : -1);
+        }
+        if (option === "Most Liked") {
+            newReviews.sort((a, b) => (a.upvote.length < b.upvote.length) ? 1 : -1);
+        }
+        setReviews(newReviews);
+    }
+
     return (
         <Box align="center" flex="grow" wrap={false} height="xxlarge">
             <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
@@ -76,7 +96,10 @@ const SearchPage = (props) => {
                                 </Heading>
                             </Box>
                             <Box align="center" justify="center" margin={{ "bottom": "medium" }}>
-                                <Select options={["Most Recent", "Least Recent", "Top Rated", "Most Liked"]} size="small" plain={false} placeholder="Sort by" />
+                                <Select options={["Most Recent", "Least Recent", "Top Rated", "Most Liked"]} value={sortBy} size="small" plain={false} placeholder="Sort by" onChange={(option) => {
+                                    setSortBy(option.value);
+                                    sort(option.value);
+                                }} />
                             </Box>
                         </Box>
                         <Box align="center" justify="center">
