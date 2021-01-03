@@ -110,12 +110,12 @@ const DashBoard = (props) => {
             align="center"
             flex="grow"
             wrap={false}
-            height="xxlarge"
+            style={{ position: 'relative' }}
         >
             <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <NavBar />
 
-            <Tabs width="large">
+            <Tabs width="large" style={{ marginTop: 140 }}>
                 <Tab title={
                     <RichTabTitle
                         icon={<DashboardIcon color="brand" />}

@@ -159,7 +159,7 @@ const AddReview = (props) => {
     }
     return (
         <Box align="center" justify="center">
-            <Grid columns={{ "size": ["medium", "large"], "count": "fit" }} gap="medium" pad="small">
+            <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
                 <Card pad="large" justify="center" align="start" background="light-1">
                     <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="xsmall">
                         <Box align="center" justify="between" direction="row" fill="horizontal">
@@ -181,7 +181,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Course
                     </Text>
-                                    <div style={{ width: 350, zIndex: 3 }}>
+                                    <div style={{ width: 250, zIndex: 3 }}>
                                         <ReactSearchAutocomplete
                                             key="courses"
                                             items={courses}
@@ -209,7 +209,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Professor
                     </Text>
-                                    <div style={{ width: 350, zIndex: 2 }}>
+                                    <div style={{ width: 250, zIndex: 2 }}>
                                         <ReactSearchAutocomplete
                                             key="professors"
                                             items={professors}

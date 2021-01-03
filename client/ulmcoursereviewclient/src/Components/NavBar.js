@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 const NavBar = (props) => {
     const { push } = React.useContext(RouterContext)
-    return (<Header align="center" direction="row-responsive" flex={false} justify="between" gap="medium">
-        <Nav align="start" direction="row-responsive" justify="end" background={{ "color": "brand" }}>
+    return (<Header align="center" direction="row-responsive" flex={false} justify="between" gap="medium" style={{ position: 'fixed', zIndex: 2 }}>
+        <Nav align="start" direction="row-responsive" justify="end" background={{ "color": "brand" }} >
             <Box align="center" justify="between" direction="row" width="large" margin="medium">
                 <Box align="center" justify="center">
                     <Heading level="4" textAlign="start" margin="xsmall">

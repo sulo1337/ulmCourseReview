@@ -80,10 +80,10 @@ const SearchPage = (props) => {
     }
 
     return (
-        <Box align="center" flex="grow" wrap={false} height="xxlarge">
+        <Box align="center" flex="grow" wrap={false} style={{ position: 'relative' }}>
             <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <NavBar />
-            <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
+            <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false} style={{ marginTop: 120 }}>
                 <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
                     <Box align="center" justify="center" gap="small" margin="small">
                         <SearchBar course={course} prof={prof} handleSearch={handleSearch} />
