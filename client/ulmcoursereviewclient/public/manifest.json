@@ -18,6 +18,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    },
+    {
+      "src": "logo864.png",
+      "sizes": "864x864",
+      "type": "image/png",
+      "purpose": "maskable any"
     }
   ],
   "start_url": ".",

@@ -19,6 +19,7 @@
     "react-search-autocomplete": "^1.0.6",
     "react-star-rating-component": "^1.4.1",
     "redux": "^4.0.5",
+    "register-service-worker": "^1.7.2",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
