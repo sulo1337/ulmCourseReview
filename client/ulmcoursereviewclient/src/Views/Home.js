@@ -6,7 +6,12 @@ const Home = () => {
     const { push } = React.useContext(RouterContext)
 
     useEffect(() => {
-
+        const authtoken = localStorage.getItem('x-auth-token');
+        if (authtoken) {
+            push('/dashboard');
+            return;
+        }
+        //eslint-disable-next-line
     }, []);
 
     return (

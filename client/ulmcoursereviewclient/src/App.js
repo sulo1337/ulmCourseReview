@@ -11,7 +11,7 @@ import SearchPage from './Views/SearchPage';
 const RouterContext = React.createContext({});
 
 const Router = ({ children }) => {
-  const [path, setPath] = React.useState("/dashboard")
+  const [path, setPath] = React.useState("/")
 
   React.useEffect(() => {
     const onPopState = () => setPath(document.location.pathname)
@@ -56,8 +56,8 @@ var x = () => (
   <Grommet full theme={theme}>
     <Router>
       <Routes>
+        <Route path="/" Component={Home} />
         <Route path="/login" Component={Login} />
-        <Route path="/index" Component={Home} />
         <Route path="/register" Component={Register} />
         <Route path="/dashboard" Component={DashboardIcon} />
         <Route path="/search" Component={SearchPage} />

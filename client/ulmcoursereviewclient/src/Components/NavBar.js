@@ -37,7 +37,7 @@ const NavBar = (props) => {
                             props.dispatch({
                                 type: "NOT_LOADING",
                             });
-                            push('/index');
+                            push('/');
                         }} />
                     </Box>
                 </Box>

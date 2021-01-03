@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+// import reportWebVitals from './reportWebVitals';
 import store from './js/store/index'
 import { Provider } from 'react-redux';
-
+import * as serviceWorker from './serviceWorker';
 // if (navigator.serviceWorker) {
 //   navigator.serviceWorker.register('./src/sw.js').then(function (registration) {
 //     console.log('ServiceWorker registration successful with scope:', registration.scope);
@@ -23,7 +23,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+serviceWorker.register();
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();

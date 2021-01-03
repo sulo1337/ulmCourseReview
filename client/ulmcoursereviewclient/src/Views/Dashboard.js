@@ -27,7 +27,7 @@ const DashBoard = (props) => {
     useEffect(() => {
         const authtoken = localStorage.getItem('x-auth-token');
         if (!authtoken) {
-            push('/index');
+            push('/');
             return;
         }
         setName(localStorage.getItem('fname'));
@@ -94,7 +94,7 @@ const DashBoard = (props) => {
             console.log(err.message);
             localStorage.removeItem('x-auth-token');
             localStorage.removeItem('fname');
-            push('/index');
+            push('/');
         });
         //eslint-disable-next-line
     }, []);
@@ -124,7 +124,7 @@ const DashBoard = (props) => {
                 }>
                     <Box align="start" justify="start" fill="vertical" width="large" pad="medium" direction="column" wrap={false}>
                         <Box align="start" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
-                            <SearchBar prof={prof} course={course} handleSearch={handleSearch} style={{ zIndex: 2 }} />
+                            <SearchBar prof={prof} course={course} handleSearch={handleSearch} />
                             <Box align="start" justify="center" >
                                 <Box align="start" justify="start" direction="column">
                                     <Heading level="3" textAlign="start" margin="small">
