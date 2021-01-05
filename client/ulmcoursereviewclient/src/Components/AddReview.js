@@ -157,6 +157,16 @@ const AddReview = (props) => {
         console.log(star);
         setRating(star);
     }
+
+    const generateYear = () => {
+        const years = [];
+        const currentYear = new Date().getFullYear();
+
+        for (let i = 0; i <= 5; i++) {
+            years.push((currentYear - i).toString());
+        }
+        return years;
+    }
     return (
         <Box align="center" justify="center">
             <Grid columns={{ "size": ["small", "large"], "count": "fit" }} gap="medium" pad="small">
@@ -255,7 +265,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Year
                     </Text>
-                                    <Select options={["2019", "2018"]} value={year} placeholder="YYYY" onChange={({ option }) => {
+                                    <Select options={generateYear()} value={year} placeholder="YYYY" onChange={({ option }) => {
                                         setYear(option);
                                     }} />
                                 </Box>
