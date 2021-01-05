@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Text } from 'grommet';
+import { Box, Button, Heading } from 'grommet';
 import React, { useEffect } from 'react';
 import { RouterContext } from '../App';
 import Logo from '../logo.png';
@@ -30,9 +30,6 @@ const Home = () => {
                         <Button label="Login" margin="xsmall" primary secondary={false} reverse={false} gap="xxsmall" fill="horizontal" onClick={() => push("/login")} />
                         <Button label="Register" hoverIndicator={false} primary onClick={() => push("/register")} />
                     </Box>
-                    <Text>
-                        Please login or register to view/create course reviews.
-            </Text>
                 </Box>
             </Box>
         </Box>
