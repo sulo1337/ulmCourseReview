@@ -53,7 +53,7 @@ const Route = ({ Component, path }) => {
 }
 
 var x = () => (
-  <Grommet full theme={theme}>
+  <Grommet full theme={theme} >
     <Router>
       <Routes>
         <Route path="/" Component={Home} />

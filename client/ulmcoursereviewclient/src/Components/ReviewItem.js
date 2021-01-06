@@ -95,78 +95,80 @@ const ReviewItem = (props) => {
                 console.log(err.response);
             })
     }
-    return (<Card pad="medium" justify="center" background="light-1" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]}>
-        <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
-            <Box align="start" justify="center">
-                <Box align="center" justify="start" direction="row" gap="xxsmall">
-                    <Text size="xlarge" color="brand">
-                        {ccode}
+    return (<div>
+        <Card pad="medium" justify="center" animation={[{ "type": "zoomIn", "size": "large", "duration": 600 }, { "type": "fadeIn", "size": "large" }]} background="light-2">
+            <CardHeader align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
+                <Box align="start" justify="center">
+                    <Box align="center" justify="start" direction="row" gap="xxsmall">
+                        <Text size="xlarge" color="brand">
+                            {ccode}
+                        </Text>
+                        {deletable
+                            ? <Delete onDelete={handleDelete} />
+                            : ""}
+                    </Box>
+                    <Text size="xsmall" textAlign="start" color="brand">
+                        {cname}
                     </Text>
-                    {deletable
-                        ? <Delete onDelete={handleDelete} />
-                        : ""}
+                    <Text size="medium" textAlign="start" color="brand">
+                        {prof}
+                    </Text>
+                    <Box align="center" justify="center" direction="row" style={{
+                        transform: "scale(1.5)",
+                        margin: "0 0 0 15px"
+                    }}>
+                        <StarRatingComponent
+                            name="reviewrate"
+                            starCount={5}
+                            value={rating}
+                            editing={false}
+                        />
+                    </Box>
                 </Box>
-                <Text size="xsmall" textAlign="start" color="brand">
-                    {cname}
-                </Text>
-                <Text size="medium" textAlign="start" color="brand">
-                    {prof}
-                </Text>
-                <Box align="center" justify="center" direction="row" style={{
-                    transform: "scale(1.5)",
-                    margin: "0 0 0 15px"
-                }}>
-                    <StarRatingComponent
-                        name="reviewrate"
-                        starCount={5}
-                        value={rating}
-                        editing={false}
-                    />
+                <Box align="end" justify="center" width="small">
+                    <Text size="xsmall" color="brand">
+                        by {anon ? "Anonymous" : rname}
+                    </Text>
+                    <Text size="xsmall" color="brand">
+                        on {date.slice(0, 10)}
+                    </Text>
+                    <Text size="medium" color="brand">
+                        {sem + " " + year.slice(0, 4)}
+                    </Text>
                 </Box>
-            </Box>
-            <Box align="end" justify="center" width="small">
-                <Text size="xsmall" color="brand">
-                    by {anon ? "Anonymous" : rname}
-                </Text>
-                <Text size="xsmall" color="brand">
-                    on {date.slice(0, 10)}
-                </Text>
-                <Text size="medium" color="brand">
-                    {sem + " " + year.slice(0, 4)}
-                </Text>
-            </Box>
-        </CardHeader>
-        <CardBody pad="small" fill="horizontal">
-            <Box align="center" justify="end" direction="row" gap="small" margin={{ "right": "medium" }}>
-                <Text size="small" color="brand">
-                    Attendance: {attendance}
-                </Text>
-                <Box align="center" justify="center" direction="row-responsive" gap="xsmall">
+            </CardHeader>
+            <CardBody pad="small" fill="horizontal">
+                <Box align="center" justify="end" direction="row" gap="small" margin={{ "right": "medium" }}>
                     <Text size="small" color="brand">
-                        Textbook Required: {textbook ? "Yes" : "No"}
+                        Attendance: {attendance}
                     </Text>
+                    <Box align="center" justify="center" direction="row-responsive" gap="xsmall">
+                        <Text size="small" color="brand">
+                            Textbook Required: {textbook ? "Yes" : "No"}
+                        </Text>
+                    </Box>
                 </Box>
-            </Box>
-            <Paragraph fill margin="none">
-                {desc}
-            </Paragraph>
-        </CardBody>
-        <CardFooter align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
-            <Box align="center" justify="center" direction="row-responsive">
-                <Box align="baseline" justify="center" fill={false} width="xxsmall" direction="row" gap="xsmall">
-                    <Button plain icon={<Like />} hoverIndicator disabled={false} primary reverse={false} color={
-                        upvote.includes(localStorage.getItem('id')) ? "black" : "white"
-                    } onClick={handleLike} />
-                    <Text size="small">
-                        {upvote.length}
-                    </Text>
+                <Paragraph fill margin="none">
+                    {desc}
+                </Paragraph>
+            </CardBody>
+            <CardFooter align="center" direction="row" flex={false} justify="between" gap="medium" pad="small">
+                <Box align="center" justify="center" direction="row-responsive">
+                    <Box align="baseline" justify="center" fill={false} width="xxsmall" direction="row" gap="xsmall">
+                        <Button plain icon={<Like />} hoverIndicator disabled={false} primary reverse={false} color={
+                            upvote.includes(localStorage.getItem('id')) ? "black" : "white"
+                        } onClick={handleLike} />
+                        <Text size="small">
+                            {upvote.length}
+                        </Text>
+                    </Box>
+                    <Box align="center" justify="center" margin={{ "left": "small" }} direction="row-responsive" gap="small">
+                        {tagButtons}
+                    </Box>
                 </Box>
-                <Box align="center" justify="center" margin={{ "left": "small" }} direction="row-responsive" gap="small">
-                    {tagButtons}
-                </Box>
-            </Box>
-        </CardFooter>
-    </Card>);
+            </CardFooter>
+        </Card>
+    </div>);
 }
 const mapStateToProps = state => ({
     professors: state.professors,
