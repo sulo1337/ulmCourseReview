@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Box, Button, Heading, TextInput } from 'grommet';
+import { Box, Button, Heading, TextInput, Text } from 'grommet';
 import { Lock, Mail, Alert, Checkmark } from 'grommet-icons';
 import React, { useState } from 'react';
 import { RouterContext } from '../App';
@@ -130,6 +130,9 @@ const Register = (props) => {
                     <TextInput icon={<Mail />} name="email" placeholder="Email" reverse value={email} onChange={(event) => {
                         setEmail(event.target.value);
                     }} />
+                    <Text color="status-critical">
+                        Please do not use your ULM Password.
+                    </Text>
                     <TextInput reverse icon={<Lock />} name="password" placeholder="Password" type="password" value={password} onChange={(event) => {
                         setPassword(event.target.value);
                     }} />
