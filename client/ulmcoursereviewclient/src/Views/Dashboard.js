@@ -111,6 +111,7 @@ const DashBoard = (props) => {
             flex="grow"
             wrap={false}
             style={{ position: 'relative' }}
+
         >
             <Loading loading={loading} background="#ddddddaa" loaderColor="#800029" />
             <NavBar />
