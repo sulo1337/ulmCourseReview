@@ -273,7 +273,7 @@ const AddReview = (props) => {
                                     <Text margin={{ "left": "small" }} color="brand">
                                         Semester
                     </Text>
-                                    <Select options={["Fall", "Spring", "Summer", "Winter", "Maymester"]} value={sem} placeholder="---" onChange={({ option }) => {
+                                    <Select options={["Fall", "Spring", "Summer", "Winter"]} value={sem} placeholder="---" onChange={({ option }) => {
                                         setSem(option);
                                     }} />
                                 </Box>
