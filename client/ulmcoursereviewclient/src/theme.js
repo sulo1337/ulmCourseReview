@@ -15,7 +15,11 @@ const theme = {
         margin: "xsmall",
     },
     global: {
-
+        focus: {
+            border: {
+                color: "#00000020"
+            }
+        },
         colors: {
             brand: {
                 light: "#800029",
